@@ -12,6 +12,7 @@ cd docs/.vuepress/dist
 # 发布到自定义域名
 echo 'www.weisuoke.com' > CNAME
 
+git init
 git add -A
 git commit -m 'deploy'
 

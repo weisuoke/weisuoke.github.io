@@ -5,7 +5,7 @@ module.exports = {
     search: false,
     nav: [
       { text: '主页', link: '/' },
-      { text: '有趣的前端', link: '/fe/' },
+      { text: '前端精进手册', link: '/fe/' },
       { text: '关于我', link: '/about/' },
       { text: '邬晓.中国', link: 'https://邬晓.中国' }
     ],
