@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/weisuoke/wx-vuepress-blog/issues"
   },
-  "homepage": "https://github.com/weisuoke/wx-vuepress-blog#readme"
+  "homepage": "https://github.com/weisuoke/wx-vuepress-blog#readme",
+  "devDependencies": {
+    "@vuepress/plugin-google-analytics": "^1.0.0-alpha.44"
+  }
 }
