@@ -1,6 +1,7 @@
+const path = require('path')
 module.exports = {
   title: '邬晓’s blog',
-  description: '喜欢前端和骑行的木讷小伙',
+  description: 'Redesign Everything',
   themeConfig: {
     search: false,
     nav: [
@@ -9,20 +10,7 @@ module.exports = {
       { text: '关于我', link: '/about/' },
       { text: '邬晓.中国', link: 'https://邬晓.中国' }
     ],
-    // sidebar: {
-    //   '/fe/': [
-    //     '',
-    //     'one',
-    //     'two',
-    //     '手写Webpack'
-    //   ],
-    //   '/about/': [
-    //     ''
-    //   ],
-    //   '/': [
-    //     ''
-    //   ]
-    // }
+    lastUpdated: '更新时间',
     sidebar: [
       {
         title: '前端精进手册',   // 必要的
@@ -37,6 +25,22 @@ module.exports = {
             sidebarDepth: 2,  
             children: [
               '/fe/webpack/手写Webpack'
+            ]
+          },
+          {
+            title: 'React', 
+            path: '/fe/React/', 
+            collapsable: false,
+            sidebarDepth: 2,  
+            children: [
+            ]
+          },
+          {
+            title: 'Vue', 
+            path: '/fe/Vue/', 
+            collapsable: false,
+            sidebarDepth: 2,  
+            children: [
             ]
           }
         ]

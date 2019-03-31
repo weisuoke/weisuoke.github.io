@@ -223,7 +223,7 @@ module.exports = Compiler;
 - @babel/generator 把遍历好的节点生成
 
 AST 解析如下:
-![](Image/Img01.png)
+![](./Image/write-webpack/Img01.png)
 
 [AST在线解析网站](https://astexplorer.net/)
 
@@ -917,9 +917,9 @@ let str = require('-!inline-loader!./a.js');
 
 > loader 默认是由两部分组成 pitch normal
 
-![](Image/Img02.png)
+![](./Image/write-webpack/Img02.png)
 
-![shi](Image/Img03.png)
+![](./Image/write-webpack/Img03.png)
 
 
 
@@ -1085,7 +1085,7 @@ module.exports = loader;
 
 > *url-loader*
 >
-> ```javas
+> ```javascript
 > use: {
 >     loader: 'url-loader',
 >     options: {
