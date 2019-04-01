@@ -3,7 +3,7 @@ home: true
 heroImage: /banner.jpg
 features:
 - title: 前端笨鸟
-  details: 997是一种态度，前端路漫漫，整就完了，别磨叽。
+  details: 997是一种态度，前端路漫漫，生死看淡，不服就干。
 - title: 极简主义
   details: less is More
 - title: 骑行爱好者

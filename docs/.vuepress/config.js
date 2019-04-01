@@ -7,6 +7,7 @@ module.exports = {
     nav: [
       { text: '主页', link: '/' },
       { text: '前端精进手册', link: '/fe/' },
+      { text: 'todos', link: '/todos/' },
       { text: '关于我', link: '/about/' },
       { text: '邬晓.中国', link: 'https://邬晓.中国' }
     ],
@@ -15,24 +16,34 @@ module.exports = {
       {
         title: '前端精进手册',   // 必要的
         path: '/fe/',      // 可选的, 应该是一个绝对路径
-        collapsable: false, // 可选的, 默认值是 true,
+        collapsable: true, // 可选的, 默认值是 true,
         sidebarDepth: 1,    // 可选的, 默认值是 1
         children: [
           {
             title: 'Webpack', 
             path: '/fe/webpack/', 
-            collapsable: false,
+            collapsable: true,
             sidebarDepth: 2,  
             children: [
               '/fe/webpack/手写Webpack'
             ]
           },
           {
-            title: 'React', 
-            path: '/fe/React/', 
-            collapsable: false,
+            title: 'TypeScript', 
+            path: '/fe/typescript/', 
+            collapsable: true,
             sidebarDepth: 2,  
             children: [
+              '/fe/typescript/docs'
+            ]
+          },
+          {
+            title: 'React', 
+            path: '/fe/react/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+            children: [
+              '/fe/react/React基础'
             ]
           },
           {
