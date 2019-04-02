@@ -25,6 +25,7 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,  
             children: [
+              '/fe/webpack/Webpack基础',
               '/fe/webpack/手写Webpack'
             ]
           },
@@ -43,7 +44,11 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,  
             children: [
-              '/fe/react/React基础'
+              '/fe/react/React基础',
+              '/fe/react/Redux',
+              '/fe/react/Mobx',
+              '/fe/react/Immutable',
+              '/fe/react/dom_diff'
             ]
           },
           {

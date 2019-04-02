@@ -481,7 +481,7 @@ React 内置了类型检测的功能。要在组件中进行类型检测，你�
 - .element React元素
 - .instanceOf(Message) 类的一个实例
 - .oneOf(['News', 'Photos']) 枚举值
-- .oneOfType([PropTypes.string,PropTypes.number,PropTypes.instanceOf(Message)]) 多种类型其中之一
+- .oneOfType() 多种类型其中之一
 - .arrayOf(PropTypes.number) 某种类型的数组
 - .objectOf(PropTypes.number) 某种类型的对象
 - .shape({color: PropTypes.string,fontSize: PropTypes.number}) 特定形式的对象

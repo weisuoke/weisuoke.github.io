@@ -1,4 +1,4 @@
-# **TypeScript**
+# **TypeScript基础**
 
 ## 1. TypeScript是什么？
 
