@@ -58,7 +58,16 @@ module.exports = {
             sidebarDepth: 2,  
             children: [
             ]
-          }
+          },
+          {
+            title: 'PWA', 
+            path: '/fe/PWA/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+            children: [
+              '/fe/PWA/pwa'
+            ]
+          },
         ]
       }
     ]
