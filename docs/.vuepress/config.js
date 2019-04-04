@@ -54,9 +54,10 @@ module.exports = {
           {
             title: 'Vue', 
             path: '/fe/Vue/', 
-            collapsable: false,
+            collapsable: true,
             sidebarDepth: 2,  
             children: [
+              '/fe/Vue/Vue-SSR'
             ]
           },
           {
