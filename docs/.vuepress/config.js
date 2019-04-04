@@ -20,6 +20,18 @@ module.exports = {
         sidebarDepth: 1,    // 可选的, 默认值是 1
         children: [
           {
+            title: '手写代码系列', 
+            path: '/fe/js-implement/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+            children: [
+              '/fe/js-implement/call.md',
+              '/fe/js-implement/bind.md',
+              '/fe/js-implement/debounce.md',
+              '/fe/js-implement/throttle.md',
+            ]
+          },
+          {
             title: 'Webpack', 
             path: '/fe/webpack/', 
             collapsable: true,
