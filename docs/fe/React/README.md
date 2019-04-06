@@ -1,1 +1,1 @@
-# React 精进手册
+# Awesome React

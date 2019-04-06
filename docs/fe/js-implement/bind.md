@@ -13,7 +13,7 @@
 
 从第一个特点开始，我们举个例子：
 
-```
+```javascript
 var foo = {
     value: 1
 };
@@ -30,7 +30,7 @@ bindFoo(); // 1
 
 关于指定 this 的指向，我们可以使用 call 或者 apply 实现，关于 call 和 apply 的模拟实现，可以查看[《JavaScript深入之call和apply的模拟实现》](https://github.com/mqyqingfeng/Blog/issues/11)。我们来写第一版的代码：
 
-```
+```javascript
 // 第一版
 Function.prototype.bind2 = function (context) {
     var self = this;
@@ -43,7 +43,7 @@ Function.prototype.bind2 = function (context) {
 
 此外，之所以 `return self.apply(context)`，是考虑到绑定函数可能是有返回值的，依然是这个例子：
 
-```
+```javascript
 var foo = {
     value: 1
 };
@@ -61,7 +61,7 @@ console.log(bindFoo()); // 1
 
 接下来看第二点，可以传入参数。这个就有点让人费解了，我在 bind 的时候，是否可以传参呢？我在执行 bind 返回的函数的时候，可不可以传参呢？让我们看个例子：
 
-```
+```javascript
 var foo = {
     value: 1
 };
@@ -84,7 +84,7 @@ bindFoo('18');
 
 这可咋办？不急，我们用 arguments 进行处理：
 
-```
+```javascript
 // 第二版
 Function.prototype.bind2 = function (context) {
 
@@ -109,7 +109,7 @@ Function.prototype.bind2 = function (context) {
 
 也就是说当 bind 返回的函数作为构造函数的时候，bind 时指定的 this 值会失效，但传入的参数依然生效。举个例子：
 
-```
+```javascript
 var value = 2;
 
 var foo = {
@@ -143,7 +143,7 @@ console.log(obj.friend);
 
 所以我们可以通过修改返回的函数的原型来实现，让我们写一下：
 
-```
+```javascript
 // 第三版
 Function.prototype.bind2 = function (context) {
     var self = this;
@@ -168,7 +168,7 @@ Function.prototype.bind2 = function (context) {
 
 但是在这个写法中，我们直接将 fBound.prototype = this.prototype，我们直接修改 fBound.prototype 的时候，也会直接修改绑定函数的 prototype。这个时候，我们可以通过一个空函数来进行中转：
 
-```
+```javascript
 // 第四版
 Function.prototype.bind2 = function (context) {
 
@@ -198,7 +198,7 @@ Function.prototype.bind2 = function (context) {
 
 在 MDN 中文版讲 bind 的模拟实现时，apply 这里的代码是：
 
-```
+```javascript
 self.apply(this instanceof self ? this : context || this, args.concat(bindArgs))
 ```
 
@@ -206,7 +206,7 @@ self.apply(this instanceof self ? this : context || this, args.concat(bindArgs))
 
 举个例子：
 
-```
+```javascript
 var value = 2;
 var foo = {
     value: 1,
@@ -230,7 +230,7 @@ foo.bar() // 2
 
 不行，我们要报错！
 
-```
+```javascript
 if (typeof this !== "function") {
   throw new Error("Function.prototype.bind - what is trying to be bound is not callable");
 }
@@ -240,7 +240,7 @@ if (typeof this !== "function") {
 
 那别忘了做个兼容：
 
-```
+```javascript
 Function.prototype.bind = Function.prototype.bind || function () {
     ……
 };
@@ -252,7 +252,7 @@ Function.prototype.bind = Function.prototype.bind || function () {
 
 所以最最后的代码就是：
 
-```
+```javascript
 Function.prototype.bind2 = function (context) {
 
     if (typeof this !== "function") {

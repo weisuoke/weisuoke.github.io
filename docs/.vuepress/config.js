@@ -7,7 +7,7 @@ module.exports = {
     nav: [
       { text: '主页', link: '/' },
       { text: '前端精进手册', link: '/fe/' },
-      { text: 'todos', link: '/todos/' },
+      { text: '算法学习', link: '/algorithm/' },
       { text: '关于我', link: '/about/' },
       { text: '邬晓.中国', link: 'https://邬晓.中国' }
     ],
@@ -29,6 +29,15 @@ module.exports = {
               '/fe/js-implement/bind.md',
               '/fe/js-implement/debounce.md',
               '/fe/js-implement/throttle.md',
+              '/fe/js-implement/instanceof.md',
+            ]
+          },
+          {
+            title: '原理系列', 
+            path: '/fe/js-theory/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+            children: [
             ]
           },
           {

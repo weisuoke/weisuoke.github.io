@@ -26,7 +26,7 @@
 
 看了这个表述，是不是感觉已经可以写出代码了…… 让我们来写第一版的代码：
 
-```
+```javascript
 // 第一版
 function throttle(func, wait) {
     var context, args;
@@ -62,7 +62,7 @@ container.onmousemove = throttle(getUserAction, 1000);
 
 当触发事件的时候，我们设置一个定时器，再触发事件的时候，如果定时器存在，就不执行，直到定时器执行，然后执行函数，清空定时器，这样就可以设置下个定时器。
 
-```
+```javascript
 // 第二版
 function throttle(func, wait) {
     var timeout;
@@ -101,7 +101,7 @@ function throttle(func, wait) {
 
 所以我们综合两者的优势，然后双剑合璧，写一版代码：
 
-```
+```javascript
 // 第三版
 function throttle(func, wait) {
     var timeout, context, args, result;
@@ -152,7 +152,7 @@ trailing: false 表示禁用停止触发的回调
 
 我们来改一下代码：
 
-```
+```javascript
 // 第四版
 function throttle(func, wait, options) {
     var timeout, context, args, result;
@@ -192,7 +192,7 @@ function throttle(func, wait, options) {
 
 在 debounce 的实现中，我们加了一个 cancel 方法，throttle 我们也加个 cancel 方法：
 
-```
+```javascript
 // 第五版 非完整代码，完整代码请查看最后的演示代码链接
 ...
 throttled.cancel = function() {
@@ -211,7 +211,7 @@ throttled.cancel = function() {
 
 如果同时设置的话，比如当你将鼠标移出的时候，因为 trailing 设置为 false，停止触发的时候不会设置定时器，所以只要再过了设置的时间，再移入的话，就会立刻执行，就违反了 leading: false，bug 就出来了，所以，这个 throttle 只有三种用法：
 
-```
+```javascript
 container.onmousemove = throttle(getUserAction, 1000);
 container.onmousemove = throttle(getUserAction, 1000, {
     leading: false
