@@ -30,6 +30,8 @@ module.exports = {
               '/fe/js-implement/debounce.md',
               '/fe/js-implement/throttle.md',
               '/fe/js-implement/instanceof.md',
+              '/fe/js-implement/reduce.md',
+              '/fe/js-implement/new.md',
             ]
           },
           {

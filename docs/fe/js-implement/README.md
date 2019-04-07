@@ -2,16 +2,17 @@
 
 1. [call/apply的实现](/fe/js-implement/call)
 2. [bind的实现](/fe/js-implement/bind)
-3. [debounce](/fe/js-implement/debounce)
-4. [throttle](/fe/js-implement/throttle)
+3. [debounce的实现](/fe/js-implement/debounce)
+4. [throttle的实现](/fe/js-implement/throttle)
+5. [instanceof的实现](/fe/js-implement/instanceof)
+6. [reduce的实现](/fe/js-implement/reduce)
+7. [new的实现](/fe/js-implement/new)
 
 ## 未归档
 
 > [【前端面试】同学，你会手写代码吗？](https://juejin.im/post/5c9edb066fb9a05e267026dc)
 
-- 实现instanceof
 - 实现jsonp
-- 实现reduce
 - 实现generator的自动执行器
 - 手写Promise
 - 实现一个路由 - Hash
