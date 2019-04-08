@@ -40,6 +40,7 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,  
             children: [
+              '/fe/js-theory/memory',
             ]
           },
           {
@@ -80,6 +81,7 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,  
             children: [
+              '/fe/Vue/Vue-Basic',
               '/fe/Vue/Vue-SSR'
             ]
           },
