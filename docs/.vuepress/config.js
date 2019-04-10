@@ -19,6 +19,7 @@ module.exports = {
         collapsable: true, // 可选的, 默认值是 true,
         sidebarDepth: 1,    // 可选的, 默认值是 1
         children: [
+          // 手写代码
           {
             title: '手写代码系列', 
             path: '/fe/js-implement/', 
@@ -32,8 +33,15 @@ module.exports = {
               '/fe/js-implement/instanceof.md',
               '/fe/js-implement/reduce.md',
               '/fe/js-implement/new.md',
+              '/fe/js-implement/aop.md',
+              '/fe/js-implement/curry.md',
+              '/fe/js-implement/JSON.stringify.md',
+              '/fe/js-implement/JSON.parse.md',
+              '/fe/js-implement/deepClone.md',
+              '/fe/js-implement/Symbol.md',
             ]
           },
+          // 原理系列
           {
             title: '原理系列', 
             path: '/fe/js-theory/', 
@@ -82,6 +90,8 @@ module.exports = {
             sidebarDepth: 2,  
             children: [
               '/fe/Vue/Vue-Basic',
+              '/fe/Vue/Vue-Components',
+              '/fe/Vue/Vue-filter-directive',
               '/fe/Vue/Vue-SSR'
             ]
           },
@@ -92,6 +102,15 @@ module.exports = {
             sidebarDepth: 2,  
             children: [
               '/fe/PWA/pwa'
+            ]
+          },
+          // 微信小程序
+          {
+            title: '微信小程序', 
+            path: '/fe/weapp/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+            children: [
             ]
           },
         ]

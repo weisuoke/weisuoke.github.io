@@ -10,7 +10,6 @@
 
 - JavaScript 是如何工作的：引擎，运行时和调用堆栈的概述！
 - JavaScript 是如何工作的：深入V8引擎&编写优化代码的5个技巧！
-- JavaScript 是如何工作的：内存管理+如何处理4个常见的内存泄漏 !
 - JavaScript 是如何工作的：事件循环和异步编程的崛起+ 5种使用 async/await 更好地编码方式！
 - JavaScript 是如何工作的：深入探索 websocket 和HTTP/2与SSE +如何选择正确的路径！
 - JavaScript 是如何工作的：与 WebAssembly比较 及其使用场景 !
@@ -33,6 +32,11 @@
 - ES6 系列之我们来聊聊装饰器
 - JavaScript专题之解读 v8 排序源码
 
-
 - EventLoop
-- 内存回收机制
+
+> [youngwind的博客](https://github.com/youngwind/blog/issues)
+
+- 单页面应用路由实现原理：以 React-Router 为例
+- 图解 HTTPS：Charles 捕获 HTTPS 的原理
+- 如何开发一个移动web UI组件库
+- JSBridge实现原理探索：以toast为例

@@ -1,4 +1,4 @@
-# Reduce的模拟实现
+# reduce的模拟实现
 
 ```javascript
 function reduce(arr, callback, initial) {
