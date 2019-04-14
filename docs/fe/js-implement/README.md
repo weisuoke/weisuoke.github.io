@@ -13,6 +13,8 @@
 11. [JSON.parse的实现](/fe/js-implement/JSON.parse)
 12. [深浅拷贝](/fe/js-implement/deepClone)
 13. [Symbol的模拟实现](/fe/js-implement/Symbol)
+14. [数组去重](/fe/js-implement/unique)
+15. [数组扁平化](/fe/js-implement/flatten)
 
 ## 未归档
 
@@ -26,8 +28,6 @@
 
 > [前端笔试之手写代码(一)](https://juejin.im/post/5c71434a6fb9a049fa10633c)
 
-- 数组扁平化/flat实现
-- 数组去重
 - 回文判断
 - 发布订阅模式
 

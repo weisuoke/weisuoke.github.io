@@ -6,7 +6,15 @@ module.exports = {
     search: false,
     nav: [
       { text: '主页', link: '/' },
-      { text: '前端精进手册', link: '/fe/' },
+      { 
+        text: '前端精进手册', 
+        link: '/fe/',
+        items: [
+          {text: 'React', link: '/fe/react/'},
+          {text: 'Vue', link: '/fe/vue/'},
+          {text: 'Webpack', link: '/fe/webpack/'},
+        ]
+      },
       { text: '算法学习', link: '/algorithm/' },
       { text: '关于我', link: '/about/' },
       { text: '邬晓.中国', link: 'https://邬晓.中国' }
@@ -39,6 +47,8 @@ module.exports = {
               '/fe/js-implement/JSON.parse.md',
               '/fe/js-implement/deepClone.md',
               '/fe/js-implement/Symbol.md',
+              '/fe/js-implement/flatten.md',
+              '/fe/js-implement/unique.md',
             ]
           },
           // 原理系列
@@ -70,6 +80,7 @@ module.exports = {
               '/fe/typescript/docs'
             ]
           },
+          // React
           {
             title: 'React', 
             path: '/fe/react/', 
@@ -114,6 +125,13 @@ module.exports = {
             ]
           },
         ]
+      },
+      {
+        title: '算法学习',
+        path: '/algorithm/',
+        collapsable: true,
+        sidebarDepth: 1, 
+        children: []
       }
     ]
   }
