@@ -16,6 +16,8 @@ module.exports = {
         ]
       },
       { text: '算法学习', link: '/algorithm/' },
+      { text: '效率', link: '/effective/' },
+      { text: 'flag', link: '/flag/' },
       { text: '关于我', link: '/about/' },
       { text: '邬晓.中国', link: 'https://邬晓.中国' }
     ],
@@ -87,11 +89,13 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,  
             children: [
-              '/fe/react/React基础',
-              '/fe/react/Redux',
-              '/fe/react/Mobx',
-              '/fe/react/Immutable',
-              '/fe/react/dom_diff'
+              // '/fe/react/React基础',
+              // '/fe/react/Redux',
+              // '/fe/react/Mobx',
+              // '/fe/react/Immutable',
+              // '/fe/react/dom_diff'
+              '/fe/react/01.React必知必会',
+              '/fe/react/t01.React-TypeScript'
             ]
           },
           {
