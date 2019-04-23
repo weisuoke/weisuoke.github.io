@@ -8,6 +8,7 @@
 - [React Redux](https://react-redux.js.org/)
 - [redux-thunk](https://github.com/reduxjs/redux-thunk)
 - [redux-saga](https://redux-saga.js.org/)
+- [react源码分析](https://www.yuque.com/ant-h5/react)
 
 ## GitHub
 
@@ -24,7 +25,8 @@
 
 ### 面试相关
 
-- [semlinker/reactjs-interview-questions](https://github.com/semlinker/reactjs-interview-questions)
+- [sudheerj/reactjs-interview-questions](https://github.com/sudheerj/reactjs-interview-questions) React面试题
+- [semlinker/reactjs-interview-questions](https://github.com/semlinker/reactjs-interview-questions) sudheerj/reactjs-interview-questions 的中文版本
 
 ### 手册文档
 

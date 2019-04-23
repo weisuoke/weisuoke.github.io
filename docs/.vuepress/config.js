@@ -15,8 +15,16 @@ module.exports = {
           {text: 'Webpack', link: '/fe/webpack/'},
         ]
       },
-      { text: '算法学习', link: '/algorithm/' },
+      { 
+        text: '算法学习', 
+        link: '/algorithm/',
+        items: [
+          {text: '数据结构', link: '/algorithm/ds/'},
+          {text: '算法', link: '/algorithm/ag/'}
+        ]
+      },
       { text: '效率', link: '/effective/' },
+      { text: 'Wiki', link: '/wiki/' },
       { text: 'flag', link: '/flag/' },
       { text: '关于我', link: '/about/' },
       { text: '邬晓.中国', link: 'https://邬晓.中国' }
@@ -89,11 +97,6 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,  
             children: [
-              // '/fe/react/React基础',
-              // '/fe/react/Redux',
-              // '/fe/react/Mobx',
-              // '/fe/react/Immutable',
-              // '/fe/react/dom_diff'
               '/fe/react/01.React必知必会',
               '/fe/react/t01.React-TypeScript'
             ]
@@ -128,6 +131,16 @@ module.exports = {
             children: [
             ]
           },
+          // 网络
+          {
+            title: '网络相关', 
+            path: '/fe/http/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+            children: [
+              '/fe/http/http2', 
+            ]
+          },
         ]
       },
       {
@@ -135,7 +148,20 @@ module.exports = {
         path: '/algorithm/',
         collapsable: true,
         sidebarDepth: 1, 
-        children: []
+        children: [
+          // 数据结构
+          {
+            title: '数据结构', 
+            path: '/algorithm/ds/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+            children: [
+              '/algorithm/ds/LinkedList',
+              '/algorithm/ds/Tree',
+              '/algorithm/ds/Heap'
+            ]
+          }
+        ]
       }
     ]
   }

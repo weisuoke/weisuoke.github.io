@@ -8,6 +8,12 @@
 - [vue ssr](https://ssr.vuejs.org/zh/)
 - [vue-cli](https://cli.vuejs.org/zh/)
 
+## GitHub
+
+### 面试相关
+
+- [udheerj/vuejs-interview-questions](https://github.com/sudheerj/vuejs-interview-questions/)
+
 ## 学习资源
 
 ### 书籍
