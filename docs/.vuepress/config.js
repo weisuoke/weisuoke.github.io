@@ -37,6 +37,16 @@ module.exports = {
         collapsable: true, // 可选的, 默认值是 true,
         sidebarDepth: 1,    // 可选的, 默认值是 1
         children: [
+          // ES6
+          {
+            title: 'ES6+', 
+            path: '/fe/es6/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+            children: [
+              '/fe/es6/set-map',
+            ]
+          },
           // 手写代码
           {
             title: '手写代码系列', 
@@ -59,6 +69,7 @@ module.exports = {
               '/fe/js-implement/Symbol.md',
               '/fe/js-implement/flatten.md',
               '/fe/js-implement/unique.md',
+              '/fe/js-implement/Promise',
             ]
           },
           // 原理系列
@@ -69,6 +80,7 @@ module.exports = {
             sidebarDepth: 2,  
             children: [
               '/fe/js-theory/memory',
+              '/fe/js-theory/event-loop'
             ]
           },
           {
@@ -139,6 +151,17 @@ module.exports = {
             sidebarDepth: 2,  
             children: [
               '/fe/http/http2', 
+              '/fe/http/tcp-connection', 
+            ]
+          },
+          // 性能优化
+          {
+            title: '性能', 
+            path: '/fe/optimize/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+            children: [
+              '/fe/optimize/optimize-need-to-know', 
             ]
           },
         ]
