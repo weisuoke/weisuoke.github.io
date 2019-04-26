@@ -20,9 +20,7 @@
 
 > [【前端面试】同学，你会手写代码吗？](https://juejin.im/post/5c9edb066fb9a05e267026dc)
 
-- 实现jsonp
 - 实现generator的自动执行器
-- 手写Promise
 - 实现一个路由 - Hash
 - 实现一个路由 - history
 

@@ -45,6 +45,7 @@ module.exports = {
             sidebarDepth: 2,  
             children: [
               '/fe/es6/set-map',
+              '/fe/es6/async'
             ]
           },
           // 手写代码
@@ -70,6 +71,7 @@ module.exports = {
               '/fe/js-implement/flatten.md',
               '/fe/js-implement/unique.md',
               '/fe/js-implement/Promise',
+              '/fe/js-implement/jsonp',
             ]
           },
           // 原理系列
@@ -80,7 +82,9 @@ module.exports = {
             sidebarDepth: 2,  
             children: [
               '/fe/js-theory/memory',
-              '/fe/js-theory/event-loop'
+              '/fe/js-theory/event-loop',
+              '/fe/js-theory/is-virtual-dom-fast',
+              '/fe/js-theory/code-fragment-analysis'
             ]
           },
           {
@@ -113,12 +117,14 @@ module.exports = {
               '/fe/react/t01.React-TypeScript'
             ]
           },
+          // Vue
           {
             title: 'Vue', 
             path: '/fe/Vue/', 
             collapsable: true,
             sidebarDepth: 2,  
             children: [
+              '/fe/Vue/01.vue-need-to-know',
               '/fe/Vue/Vue-Basic',
               '/fe/Vue/Vue-Components',
               '/fe/Vue/Vue-filter-directive',
@@ -152,6 +158,7 @@ module.exports = {
             children: [
               '/fe/http/http2', 
               '/fe/http/tcp-connection', 
+              '/fe/http/from-url-to-page', 
             ]
           },
           // 性能优化
@@ -162,6 +169,7 @@ module.exports = {
             sidebarDepth: 2,  
             children: [
               '/fe/optimize/optimize-need-to-know', 
+              '/fe/optimize/monitor', 
             ]
           },
         ]
@@ -179,9 +187,20 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,  
             children: [
+              '/algorithm/ds/Stack',
               '/algorithm/ds/LinkedList',
               '/algorithm/ds/Tree',
               '/algorithm/ds/Heap'
+            ]
+          },
+          // 算法
+          {
+            title: '算法', 
+            path: '/algorithm/ag/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+            children: [
+              '/algorithm/ag/sort'
             ]
           }
         ]
