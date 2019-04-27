@@ -78,3 +78,93 @@ var foo = { n: 1 };
 console.log(foo.n); 	 //实参foo的指向还是原来的内存空间，里面的n的值为3.
 ```
 
+
+
+### 6. 
+
+```js
+// 下面代码中 a 在什么情况下会打印 1？
+var a = ?;
+if(a == 1 && a == 2 && a == 3){
+ 	console.log(1);
+}
+```
+
+**答案**
+
+这个题目考察==的隐式转换吧
+
+> 利用toString
+
+```js
+let a = {
+  i: 1,
+  toString () {
+    return a.i++
+  }
+}
+
+if(a == 1 && a == 2 && a == 3) {
+  console.log('1');
+}
+```
+
+> 利用valueOf
+
+```js
+let a = {
+  i: 1,
+  valueOf () {
+    return a.i++
+  }
+}
+
+if(a == 1 && a == 2 && a == 3) {
+  console.log('1');
+}
+```
+
+> 数组这个就有点妖了
+
+```js
+var a = [1,2,3];
+a.join = a.shift;
+if(a == 1 && a == 2 && a == 3) {
+  console.log('1');
+}
+```
+
+> ES6的symbol
+
+```js
+let a = {[Symbol.toPrimitive]: ((i) => () => ++i) (0)};
+if(a == 1 && a == 2 && a == 3) {
+  console.log('1');
+}
+```
+
+[从 (a==1&&a==2&&a==3) 成立中看javascript的隐式类型转换](https://yq.aliyun.com/articles/399499)
+
+### 7. 
+
+```js
+var a = 10;
+(function () {
+    console.log(a)
+    a = 5
+    console.log(window.a)
+    var a = 20;
+    console.log(a)
+})()
+```
+
+**答案**
+
+依次输出：undefined -> 10 -> 20
+
+解析：
+
+在立即执行函数中，`var a = 20;` 语句定义了一个局部变量 `a`，由于js的变量声明提升机制，局部变量`a`的声明会被提升至立即执行函数的函数体最上方，且由于这样的提升并不包括赋值，因此第一条打印语句会打印`undefined`，最后一条语句会打印`20`。
+
+由于变量声明提升，`a = 5;` 这条语句执行时，局部的变量`a`已经声明，因此它产生的效果是对局部的变量`a`赋值，此时`window.a` 依旧是最开始赋值的`10`，
+

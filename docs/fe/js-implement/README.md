@@ -15,6 +15,9 @@
 13. [Symbol的模拟实现](/fe/js-implement/Symbol)
 14. [数组去重](/fe/js-implement/unique)
 15. [数组扁平化](/fe/js-implement/flatten)
+16. [实现(5).add(3).minus(2)的功能](/fe/js-implement/number-operator)
+17. [sleep实现](/fe/js-implement/sleep)
+18. [Set实现](/fe/js-implement/Set)
 
 ## 未归档
 

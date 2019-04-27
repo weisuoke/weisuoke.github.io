@@ -45,7 +45,9 @@ module.exports = {
             sidebarDepth: 2,  
             children: [
               '/fe/es6/set-map',
-              '/fe/es6/async'
+              '/fe/es6/generator',
+              '/fe/es6/async',
+              '/fe/es6/decorate'
             ]
           },
           // 手写代码
@@ -84,7 +86,9 @@ module.exports = {
               '/fe/js-theory/memory',
               '/fe/js-theory/event-loop',
               '/fe/js-theory/is-virtual-dom-fast',
-              '/fe/js-theory/code-fragment-analysis'
+              '/fe/js-theory/code-fragment-analysis',
+              '/fe/js-theory/executor-stack',
+              '/fe/js-theory/how-to-implement-a-router'
             ]
           },
           {

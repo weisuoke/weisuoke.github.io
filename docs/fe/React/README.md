@@ -4,6 +4,7 @@
 
 - [React文档](https://zh-hans.reactjs.org/docs/getting-started.html)
 - [Redux](https://redux.js.org/)
+  - [Redux中文文档](https://www.redux.org.cn/)
   - [Usage with TypeScript](<https://redux.js.org/recipes/usage-with-typescript#type-checking-reducers>)
 - [React Redux](https://react-redux.js.org/)
 - [redux-thunk](https://github.com/reduxjs/redux-thunk)
