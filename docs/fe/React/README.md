@@ -36,6 +36,7 @@
 
 ## 待阅读文章
 
+- [如何搭建一个REACT全家桶框架](https://juejin.im/post/5c9d88ea6fb9a070c6189d69#heading-32) 基于React16.8 + Webpack4 搭建初始框架
 - [基于 React & TypeScript & Webpack 的微前端应用模板](https://juejin.im/post/5c4f265e6fb9a049a97a199d)
 
 ## 待归档文章

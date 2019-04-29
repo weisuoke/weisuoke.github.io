@@ -45,6 +45,37 @@ class BST {
 }
 ```
 
+**获取最小值**
+
+查找 BST 上的最小值和最大值非常简单。因为较小的值总是在左子节点上，在 BST 上查 
+
+找最小值，只需要遍历左子树，直到找到最后一个节点。 
+
+```js
+function getMin() {
+  var current = this.root;
+  while (!(current.left == null)) {
+    current = current.left;
+  }
+  return current.data
+}
+```
+
+**获取最大值**
+
+在 BST 上查找最大值，只需要遍历右子树，直到找到最后一个节点，该节点上保存的值即
+为最大值。
+
+```js
+function getMax() {
+  var current = this.root;
+  while(!(current.right == null)) {
+    current = current.right;
+  }
+  return current.data
+}
+```
+
 以上是最基本的二分搜索树实现，接下来实现树的遍历。
 
 对于树的遍历来说，有三种遍历方法，分别是先序遍历、中序遍历、后序遍历。三种遍历的区别在于何时访问节点。在遍历树的过程中，每个节点都会遍历三次，分别是遍历到自己，遍历左子树和遍历右子树。如果需要实现先序遍历，那么只需要第一次遍历到节点时进行操作即可。

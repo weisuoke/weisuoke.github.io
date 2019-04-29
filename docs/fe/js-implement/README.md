@@ -18,6 +18,7 @@
 16. [实现(5).add(3).minus(2)的功能](/fe/js-implement/number-operator)
 17. [sleep实现](/fe/js-implement/sleep)
 18. [Set实现](/fe/js-implement/Set)
+19. [惰性函数](/fe/js-implement/Lazy-Function)
 
 ## 未归档
 

@@ -37,6 +37,15 @@ module.exports = {
         collapsable: true, // 可选的, 默认值是 true,
         sidebarDepth: 1,    // 可选的, 默认值是 1
         children: [
+          {
+            title: 'CSS', 
+            path: '/fe/css/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+            children: [
+              '/fe/css/xFC',
+            ]
+          },
           // ES6
           {
             title: 'ES6+', 
@@ -83,12 +92,18 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,  
             children: [
+              '/fe/js-theory/code-fragment-analysis',
               '/fe/js-theory/memory',
+              '/fe/js-theory/asynchronous',
+              '/fe/js-theory/event',
               '/fe/js-theory/event-loop',
               '/fe/js-theory/is-virtual-dom-fast',
-              '/fe/js-theory/code-fragment-analysis',
               '/fe/js-theory/executor-stack',
-              '/fe/js-theory/how-to-implement-a-router'
+              '/fe/js-theory/how-to-implement-a-router',
+              '/fe/js-theory/equal-different',
+              '/fe/js-theory/service-worker-life-cycle',
+              '/fe/js-theory/browser-cache',
+              '/fe/js-theory/browser-rendering'
             ]
           },
           {
@@ -160,6 +175,8 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,  
             children: [
+              '/fe/http/get-post', 
+              '/fe/http/http', 
               '/fe/http/http2', 
               '/fe/http/tcp-connection', 
               '/fe/http/from-url-to-page', 
