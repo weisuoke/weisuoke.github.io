@@ -200,3 +200,47 @@ var a = 10;
    就是最外层的作用域，ES6新增了块极作用域所以使用let即可。
 3. 最后我们巧妙的运用了this解决(this.innerHTML),在面试的时候经常面试官会迷惑你this的情况，
    要分析最后this再没执行前的作用域到底在哪
+
+
+
+### 9. 找出下列正数组的最大差值
+
+输入 [10,5,11,7,8,9]
+
+```js
+// 方法一
+function getMaxProfit(arr) {
+  var minPrice = arr[0];
+  var maxProfit = 0;
+  
+  for (var i = 0; i < arr.length; i++) {
+    var currentPrice = arr[i];
+    
+    minPrice = Math.min(minPrice, currentPrice);
+    
+    var potentialProfit = currentPrice - minPrice;
+    
+    maxProfit = Math.max(maxProfit, potentialProfit);
+  }
+}
+```
+
+```js
+// 方法二
+function getMaxProfit(arr) {
+  var max=arr[0];
+  var min=arr[0];
+  var res=0;
+  for (var i = 1; i < arr.length; i++) {
+    if(arr[i]>max){
+      max=arr[i];
+    }
+    if(arr[i]<min){
+      min=arr[i]
+    }
+    res=max-min;
+  }
+  return res;
+}
+```
+

@@ -11,7 +11,6 @@
 - JavaScript 是如何工作的：深入V8引擎&编写优化代码的5个技巧！
 - JavaScript 是如何工作的：事件循环和异步编程的崛起+ 5种使用 async/await 更好地编码方式！
 - JavaScript 是如何工作的：深入探索 websocket 和HTTP/2与SSE +如何选择正确的路径！
-- JavaScript 是如何工作的：与 WebAssembly比较 及其使用场景 !
 - JavaScript 是如何工作的：Web Workers的构建块+ 5个使用他们的场景!
 - JavaScript 是如何工作的：Web 推送通知的机制!
 - JavaScript是如何工作的：使用 MutationObserver 跟踪 DOM 的变化!

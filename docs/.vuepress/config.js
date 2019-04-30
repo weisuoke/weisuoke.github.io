@@ -44,6 +44,7 @@ module.exports = {
             sidebarDepth: 2,  
             children: [
               '/fe/css/xFC',
+              '/fe/css/center-div'
             ]
           },
           // ES6
@@ -53,10 +54,13 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,  
             children: [
+              '/fe/es6/var-let-const',
+              '/fe/es6/arrow-function',
               '/fe/es6/set-map',
               '/fe/es6/generator',
               '/fe/es6/async',
-              '/fe/es6/decorate'
+              '/fe/es6/decorate',
+              '/fe/es6/proxy'
             ]
           },
           // 手写代码
@@ -93,6 +97,7 @@ module.exports = {
             sidebarDepth: 2,  
             children: [
               '/fe/js-theory/code-fragment-analysis',
+              '/fe/js-theory/type-of-js',
               '/fe/js-theory/memory',
               '/fe/js-theory/asynchronous',
               '/fe/js-theory/event',
@@ -103,7 +108,9 @@ module.exports = {
               '/fe/js-theory/equal-different',
               '/fe/js-theory/service-worker-life-cycle',
               '/fe/js-theory/browser-cache',
-              '/fe/js-theory/browser-rendering'
+              '/fe/js-theory/browser-rendering',
+              '/fe/js-theory/web-components',
+              '/fe/js-theory/webassembly'
             ]
           },
           {
