@@ -19,6 +19,8 @@
 17. [sleep实现](/fe/js-implement/sleep)
 18. [Set实现](/fe/js-implement/Set)
 19. [惰性函数](/fe/js-implement/Lazy-Function)
+20. [回文](/fe/js-implement/Palindromes.md)
+21. [数组查找指定元素](/fe/js-implement/array-find.md)
 
 ## 未归档
 

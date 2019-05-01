@@ -98,6 +98,7 @@ module.exports = {
             children: [
               '/fe/js-theory/code-fragment-analysis',
               '/fe/js-theory/type-of-js',
+              '/fe/js-theory/js-scope',
               '/fe/js-theory/memory',
               '/fe/js-theory/asynchronous',
               '/fe/js-theory/event',
@@ -110,7 +111,10 @@ module.exports = {
               '/fe/js-theory/browser-cache',
               '/fe/js-theory/browser-rendering',
               '/fe/js-theory/web-components',
-              '/fe/js-theory/webassembly'
+              '/fe/js-theory/webassembly',
+              '/fe/js-theory/npm',
+              '/fe/js-theory/websocket',
+              '/fe/js-theory/Immutable'
             ]
           },
           {
