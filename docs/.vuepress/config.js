@@ -87,6 +87,7 @@ module.exports = {
               '/fe/js-implement/unique.md',
               '/fe/js-implement/Promise',
               '/fe/js-implement/jsonp',
+              '/fe/js-implement/my-webpack'
             ]
           },
           // 原理系列
@@ -204,6 +205,20 @@ module.exports = {
               '/fe/optimize/monitor', 
             ]
           },
+          // 设计模式
+          {
+            title: '设计模式', 
+            path: '/fe/Gof/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+          },
+          // 前端安全
+          {
+            title: '前端安全', 
+            path: '/fe/security/', 
+            collapsable: true,
+            sidebarDepth: 2,  
+          }
         ]
       },
       {

@@ -21,6 +21,9 @@
 19. [惰性函数](/fe/js-implement/Lazy-Function)
 20. [回文](/fe/js-implement/Palindromes.md)
 21. [数组查找指定元素](/fe/js-implement/array-find.md)
+22. [实现小型打包工具](/fe/js-implement/my-webpack.md)
+23. [函数记忆](/fe/js-implement/momize.md)
+24. [Promise](/fe/js-implement/Promise)
 
 ## 未归档
 
