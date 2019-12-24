@@ -23,6 +23,13 @@ module.exports = {
           {text: '算法', link: '/algorithm/ag/'}
         ]
       },
+      {
+        text: '玩转Github',
+        link: '/github/',
+        items: [
+          {text: '我的github', link: '/github/my-github'},
+        ]
+      },
       { text: '效率', link: '/effective/' },
       { text: 'Wiki', link: '/wiki/' },
       { text: 'flag', link: '/flag/' },

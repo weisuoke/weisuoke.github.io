@@ -799,7 +799,7 @@ MDN 对闭包的定义为：
 
 举个例子：
 
-```
+```js
 var a = 1;
 
 function foo() {
@@ -834,7 +834,7 @@ ECMAScript中，闭包指的是：
 
 让我们先写个例子，例子依然是来自《JavaScript权威指南》，稍微做点改动：
 
-```
+```js
 var scope = "global scope";
 function checkscope(){
     var scope = "local scope";
@@ -873,7 +873,7 @@ foo();
 
 当我们了解了具体的执行过程后，我们知道 f 执行上下文维护了一个作用域链：
 
-```
+```js
 fContext = {
     Scope: [AO, checkscopeContext.AO, globalContext.VO],
 }
@@ -896,7 +896,7 @@ fContext = {
 
 接下来，看这道刷题必刷，面试必考的闭包题：
 
-```
+```js
 var data = [];
 
 for (var i = 0; i < 3; i++) {
@@ -914,7 +914,7 @@ data[2]();
 
 当执行到 data[0] 函数之前，此时全局上下文的 VO 为：
 
-```
+```js
 globalContext = {
     VO: {
         data: [...],
@@ -925,7 +925,7 @@ globalContext = {
 
 当执行 data[0] 函数的时候，data[0] 函数的作用域链为：
 
-```
+```js
 data[0]Context = {
     Scope: [AO, globalContext.VO]
 }
@@ -937,7 +937,7 @@ data[1] 和 data[2] 是一样的道理。
 
 所以让我们改成闭包看看：
 
-```
+```js
 var data = [];
 
 for (var i = 0; i < 3; i++) {
@@ -955,7 +955,7 @@ data[2]();
 
 当执行到 data[0] 函数之前，此时全局上下文的 VO 为：
 
-```
+```js
 globalContext = {
     VO: {
         data: [...],
@@ -968,7 +968,7 @@ globalContext = {
 
 当执行 data[0] 函数的时候，data[0] 函数的作用域链发生了改变：
 
-```
+```js
 data[0]Context = {
     Scope: [AO, 匿名函数Context.AO globalContext.VO]
 }
@@ -976,7 +976,7 @@ data[0]Context = {
 
 匿名函数执行上下文的AO为：
 
-```
+```js
 匿名函数Context = {
     AO: {
         arguments: {

@@ -306,3 +306,10 @@ Function.prototype.apply = function (context, arr) {
 
 
 [原文地址](<https://github.com/mqyqingfeng/Blog/issues/11>)
+
+
+
+## 补充：call和apply的性能对比
+
+[call和apply的性能对比](<https://github.com/noneven/__/issues/6>)
+
