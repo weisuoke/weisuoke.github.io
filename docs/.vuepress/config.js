@@ -31,10 +31,11 @@ module.exports = {
         ]
       },
       { text: '效率', link: '/effective/' },
-      { text: 'Wiki', link: '/wiki/' },
-      { text: 'flag', link: '/flag/' },
-      { text: '关于我', link: '/about/' },
-      { text: '邬晓.中国', link: 'https://邬晓.中国' }
+      { text: 'WIKI', link: '/wiki/' },
+      { text: 'FLAG', link: '/flag/' },
+      { text: 'ABOUT ME', link: '/about/' },
+      { text: 'WUXIAO.IO', link: 'https://wuxiao.io' },
+      { text: 'WUXIAO.CODES', link: 'https://react.wuxiao.codes' }
     ],
     lastUpdated: '更新时间',
     sidebar: [
