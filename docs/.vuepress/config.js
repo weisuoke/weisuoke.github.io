@@ -2,6 +2,7 @@ const path = require("path");
 module.exports = {
   title: "邬晓’s blog",
   description: "Redesign Everything",
+  '@vuepress/back-to-top': true,
   themeConfig: {
     search: false,
     nav: [
@@ -221,7 +222,18 @@ module.exports = {
         title: "前端精进2020",
         path: "/fe2020/",
         collapsable: true,
-        sidebarDepth: 1
+        sidebarDepth: 1,
+        children: [
+          {
+            title: "设计模式",
+            path: "/fe2020/Gof/",
+            collapsable: true,
+            sidebarDepth: 2,
+            children: [
+              "/fe2020/Gof/juejin-GoF.md"
+            ]
+          }
+        ]
       },
       {
         title: "读书笔记",
@@ -268,5 +280,6 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  plugins: ["vuepress-plugin-table-of-contents", "@vuepress/back-to-top"]
 };

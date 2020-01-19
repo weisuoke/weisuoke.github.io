@@ -20,7 +20,10 @@
   "homepage": "https://github.com/weisuoke/wx-vuepress-blog#readme",
   "devDependencies": {
     "@vuepress/plugin-active-header-links": "^1.0.0-alpha.44",
-    "@vuepress/plugin-back-to-top": "^1.0.0-alpha.44",
+    "@vuepress/plugin-back-to-top": "^1.0.0-rc.1",
     "@vuepress/plugin-google-analytics": "^1.0.0-alpha.44"
+  },
+  "dependencies": {
+    "vuepress-plugin-table-of-contents": "^1.1.5"
   }
 }

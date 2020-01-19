@@ -3,6 +3,8 @@
 - 重新思考大前端
 - 《前端精进手册》里面的文章总结
 
+[[TOC]]
+
 ## 从以下几个方面入手
 
 1. FP
@@ -27,6 +29,10 @@
 
 - Ant Design 4.0
 
+### 基础
+
+- match、matchAll、g标志，看完不再晕
+
 ### 思路
 
 - 2019年京东PLUS会员前端开发之路
@@ -42,6 +48,12 @@
 - 前端页面被取消的重复请求
 - 聊一聊 Vue 项目的「深链方案」
 - 记录一次有难度的后台重构&性能优化
+- 深入浅出gitlab CI
+- 得到 Hybrid 架构的演进之路
+- 前端微服务在字节跳动的打磨与应用
+- 前端代码是怎样智能生成的-图像分离篇
+- 如何解决 Render Props 的回调地狱
+- 前端极致性能优化手册大全
 
 ### 好玩
 
@@ -52,11 +64,15 @@
 - 基于 Angular 的小程序可视化编辑器 —— Panel-Magic
 - 手把手教你实现TypeScript下的IoC容器
 - vue 下评论实现@ mention提及功能
-- 全网最详bpmn.js教材-properties篇
+- 让你优雅的填满Github的绿色格子-AutoCommit
+- 使用Pixi撸一款“劳力士绿水鬼”！
+- flatBuffer在前端的实际应用
+- H5录音音频可视化-实时波形频谱绘制、频率直方图
   
 ### 原理
 
 - React-Redux 100行代码简易版探究原理。（面试热点，React Hook + TypeScript实现）
+- TypeScript从零实现基于Proxy的响应式库，带你彻底搞懂Vue3的响应式原理！
 
 ### 小Demo
 
@@ -64,3 +80,10 @@
 - 从零到部署：用 Vue 和 Express 实现迷你全栈电商应用
 - React Hooks 实现一个搜索功能
 - 一步一步手写一个自己前端脚手架cli工具
+- 前端轻量化部署脚手架实践
+- Vue 3 SFC 来实现一个todoMVC
+- 边写边学系列（四）—— Gatsby 搭建炫酷屌炸天的个人博客
+
+### Github
+
+- [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)
