@@ -232,6 +232,12 @@ module.exports = {
             children: [
               "/fe2020/Gof/juejin-GoF.md"
             ]
+          },
+          {
+            title: "数据结构与算法",
+            path: "/fe2020/algorithm/",
+            collapsable: true,
+            sidebarDepth: 2,
           }
         ]
       },

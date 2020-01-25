@@ -54,6 +54,11 @@
 - 前端代码是怎样智能生成的-图像分离篇
 - 如何解决 Render Props 的回调地狱
 - 前端极致性能优化手册大全
+- 使用 Nuxt (Vue.js)、Strapi 和 Apollo 构建博客
+- Egg + React 实战日记本（万字长文，望收藏点赞）
+- 状态管理中的第一性原理
+- 使用 React 的 Context API 来管理数据
+- Antd Form 实现机制解析
 
 ### 好玩
 
@@ -68,11 +73,16 @@
 - 使用Pixi撸一款“劳力士绿水鬼”！
 - flatBuffer在前端的实际应用
 - H5录音音频可视化-实时波形频谱绘制、频率直方图
+- 使用intro.js实现分步骤帮助引导
+- 一个校验数据合法的轮子
+- 前端人工智能？TensorFlow.js 学会游戏通关
   
 ### 原理
 
 - React-Redux 100行代码简易版探究原理。（面试热点，React Hook + TypeScript实现）
 - TypeScript从零实现基于Proxy的响应式库，带你彻底搞懂Vue3的响应式原理！
+- Promise的实现原理以及相关用法
+- redux真的不复杂
 
 ### 小Demo
 
@@ -83,6 +93,7 @@
 - 前端轻量化部署脚手架实践
 - Vue 3 SFC 来实现一个todoMVC
 - 边写边学系列（四）—— Gatsby 搭建炫酷屌炸天的个人博客
+- 使用 Nuxt (Vue.js)、Strapi 和 Apollo 构建博客
 
 ### Github
 
