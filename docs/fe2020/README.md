@@ -5,20 +5,20 @@
 
 [[TOC]]
 
-## 从以下几个方面入手
+## Tag
 
 1. FP
 2. 框架
    - React（源码级）
    - Vue（源码级）
 3. 构建工具
+   - Webpack
+   - Rollup
 4. 性能优化
 5. 测试
 6. 设计模式
 7. 算法
 8. Node
-
-## 需求池
 
 ### 名词
 
@@ -98,3 +98,17 @@
 ### Github
 
 - [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)
+
+## JueJin - User
+
+- [苏里](https://juejin.im/user/582d3b450ce463006ce6d4e9)
+  - 分享快速搭建 Node 端 TypeScript 开发环境
+  - 浅谈TypeScript下的IoC容器原理
+  - 深入解析dva源码之dva-core篇
+  - 深入理解洋葱模型中间件机制
+  - JavaScript 实现超小型语法编译器
+  - 图解 JavaScript 竞态处理
+  - 设计实现优雅修改redux数据流的一个库
+  - 学习使用Pointfree风格优化代码 - 函数式编程
+  - Compose & Pipe - 函数式编程
+  - Partial & Curry - 函数式编程

@@ -225,11 +225,22 @@ module.exports = {
         sidebarDepth: 1,
         children: [
           {
+            title: "Vue",
+            path: "/fe2020/Vue/",
+            collapsable: true,
+          },
+          {
+            title: "React",
+            path: "/fe2020/React/",
+            collapsable: true,
+          },
+          {
             title: "设计模式",
             path: "/fe2020/Gof/",
             collapsable: true,
             sidebarDepth: 2,
             children: [
+              "/fe2020/Gof/zhufeng-GoF.md",
               "/fe2020/Gof/juejin-GoF.md"
             ]
           },
@@ -238,6 +249,15 @@ module.exports = {
             path: "/fe2020/algorithm/",
             collapsable: true,
             sidebarDepth: 2,
+          },
+          {
+            title: "微前端",
+            path: "/fe2020/microFE/",
+            collapsable: true,
+            sidebarDepth: 2,
+            children: [
+              "/fe2020/microFE/book-microFE.md"
+            ]
           }
         ]
       },

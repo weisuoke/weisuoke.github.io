@@ -1991,3 +1991,1269 @@ class ProxyImage {
     }
 }
 ```
+
+`ProxyImage` 帮我们调度了预加载相关的工作，我们可以通过 `ProxyImage` 这个代理，实现对真实 img 节点的间接访问，并得到我们想要的效果。
+
+在这个实例中，`virtualImage` 这个对象是一个“幕后英雄”，它始终存在于 JavaScript 世界中、代替真实 DOM 发起了图片加载请求、完成了图片加载工作，却从未在渲染层面抛头露面。因此这种模式被称为“虚拟代理”模式。
+
+### 11.3 缓存代理
+
+缓存代理比较好理解，它应用于一些计算量较大的场景里。在这种场景下，我们需要“用空间换时间”——当我们需要用到某个已经计算过的值的时候，不想再耗时进行二次计算，而是希望能从内存里去取出现成的计算结果。这种场景下，就需要一个代理来帮我们在进行计算的同时，进行计算结果的缓存了。
+
+一个比较典型的例子，是对传入的参数进行求和：
+
+```javascript
+// addAll方法会对你传入的所有参数做求和操作
+const addAll = function() {
+    console.log('进行了一次新计算')
+    let result = 0
+    const len = arguments.length
+    for(let i = 0; i < len; i++) {
+        result += arguments[i]
+    }
+    return result
+}
+
+// 为求和方法创建代理
+const proxyAddAll = (function(){
+    // 求和结果的缓存池
+    const resultCache = {}
+    return function() {
+        // 将入参转化为一个唯一的入参字符串
+        const args = Array.prototype.join.call(arguments, ',')
+        
+        // 检查本次入参是否有对应的计算结果
+        if(args in resultCache) {
+            // 如果有，则返回缓存池里现成的结果
+            return resultCache[args]
+        }
+        return resultCache[args] = addAll(...arguments)
+    }
+})()
+```
+我们把这个方法丢进控制台，尝试同一套入参两次，结果喜人：
+![-w706](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/27/15800544626698.jpg)
+我们发现 proxyAddAll 针对重复的入参只会计算一次，这将大大节省计算过程中的时间开销。现在我们有 6 个入参，可能还看不出来，当我们针对大量入参、做反复计算时，缓存代理的优势将得到更充分的凸显。
+
+### 11.4 保护代理
+
+保护代理，其实在我们上个小节大家就见识过了。此处我们仅作提点，不作重复演示。
+
+开婚介所的时候，为了保护用户的私人信息，我们会在同事哥访问小美的年龄的时候，去校验同事哥是否已经通过了我们的实名认证；为了确保婚介所的利益同事哥确实是一位有诚意的男士，当他想获取小美的联系方式时，我们会校验他是否具有VIP 资格。所谓“保护代理”，就是在访问层面做文章，在 getter 和 setter 函数里去进行校验和拦截，确保一部分变量是安全的。
+
+值得一提的是，上节中我们提到的 Proxy，它本身就是为拦截而生的，所以我们目前实现保护代理时，考虑的首要方案就是 ES6 中的 Proxy。
+
+## 12. 行为型：策略模式——重构小能手，拆分“胖逻辑”
+
+策略模式和状态模式属于本书”彩蛋“性质的附加小节。这两种模式理解难度都不大，在面试中也几乎没有什么权重，但是却对大家培养良好的编码习惯和重构意识却大有裨益。针对这两种模式，大家了解、会用即可，不建议大家死磕。
+
+策略模式不太适合一上来就怼概念，容易懵。咱们就先从一个非常贴近业务的需求讲起，大家跟我一起敲完这波代码，自然会知道策略模式是怎么回事儿了。
+
+### 12.1 先来看一个真实场景
+
+有一天，产品经理韩梅梅找到李雷，给李雷提了这么个需求：
+马上大促要来了，我们本次大促要做差异化询价。啥是差异化询价？就是说同一个商品，我通过在后台给它设置不同的价格类型，可以让它展示不同的价格。具体的逻辑如下：
+
+- 当价格类型为“预售价”时，满 100 - 20，不满 100 打 9 折
+- 当价格类型为“大促价”时，满 100 - 30，不满 100 打 8 折
+- 当价格类型为“返场价”时，满 200 - 50，不叠加
+- 当价格类型为“尝鲜价”时，直接打 5 折
+
+李雷扫了一眼 prd，立刻来了主意。他首先将四种价格做了标签化：
+
+```javascript
+预售价 - pre
+大促价 - onSale
+返场价 - back
+尝鲜价 - fresh
+```
+
+接下来李雷仔细研读了 prd 的内容，作为资深 if-else 侠，他三下五除二就写出一套功能完备的代码：
+
+```javascript
+// 询价方法，接受价格标签和原价为入参
+function askPrice(tag, originPrice) {
+
+  // 处理预热价
+  if(tag === 'pre') {
+    if(originPrice >= 100) {
+      return originPrice - 20
+    } 
+    return originPrice * 0.9
+  }
+  
+  // 处理大促价
+  if(tag === 'onSale') {
+    if(originPrice >= 100) {
+      return originPrice - 30
+    } 
+    return originPrice * 0.8
+  }
+  
+  // 处理返场价
+  if(tag === 'back') {
+    if(originPrice >= 200) {
+      return originPrice - 50
+    }
+    return originPrice
+  }
+  
+  // 处理尝鲜价
+  if(tag === 'fresh') {
+     return originPrice * 0.5
+  }
+}
+```
+
+### 12.2 if-else 侠，人人喊打
+
+随便跑一下，上述代码运行起来确实没啥毛病。但也只是“运行起来”没毛病而已。作为人人喊打的 if-else 侠，李雷必须为他的行为付出代价。我们一起来看看这么写代码会带来什么后果：
+
+- 首先，它违背了“单一功能”原则。一个 function 里面，它竟然处理了四坨逻辑——这个函数的逻辑太胖了！这样会带来什么样的糟糕后果，笔者在前面的小节中已经 BB 过很多次了：比如说万一其中一行代码出了 Bug，那么整个询价逻辑都会崩坏；与此同时出了 Bug 你很难定位到底是哪个代码块坏了事；再比如说单个能力很难被抽离复用等等等等。相信跟着我一路学下来的各位，也已经在重重实战中对胖逻辑的恶劣影响有了切身的体会。总之，见到胖逻辑，我们的第一反应，就是一个字——拆！
+- 不仅如此，它还违背了“开放封闭”原则。假如有一天韩梅梅再次找到李雷，要他加一个满 100 - 50 的“新人价”怎么办？他只能继续 if-else：
+
+```javascript
+function askPrice(tag, originPrice) {
+
+  // 处理预热价
+  if(tag === 'pre') {
+    if(originPrice >= 100) {
+      return originPrice - 20
+    } 
+    return originPrice * 0.9
+  }
+  // 处理大促价
+  if(tag === 'onSale') {
+    if(originPrice >= 100) {
+      return originPrice - 30
+    } 
+    return originPrice * 0.8
+  }
+
+  // 处理返场价
+  if(tag === 'back') {
+    if(originPrice >= 200) {
+      return originPrice - 50
+    }
+    return originPrice
+  }
+
+  // 处理尝鲜价
+  if(tag === 'fresh') {
+     return originPrice * 0.5
+  }
+  
+  // 处理新人价
+  if(tag === 'newUser') {
+    if(originPrice >= 100) {
+      return originPrice - 50
+    }
+    return originPrice
+  }
+}
+```
+
+没错，李雷灰溜溜地跑去改了 askPrice 函数！随后他恬不知耻地徐徐转头，对背后的测试同学说：哥，我改了询价函数，麻烦你帮我把整个询价逻辑回归一下。测试同学莞尔一笑， 心中早已有无数头羊驼在狂奔。他强忍着周末加班的悲痛，做完了这漫长而不必要的回归测试，随后对李雷说：哥，求你学学设计模式吧！！
+
+### 12.3 重构询价逻辑
+
+现在我们基于我们已经学过的设计模式思想，一点一点改造掉这个臃肿的 askPrice。
+
+**单一功能改造**
+
+首先，我们赶紧把四种询价逻辑提出来，让它们各自为政：
+
+```javascript
+// 处理预热价
+function prePrice(originPrice) {
+  if(originPrice >= 100) {
+    return originPrice - 20
+  } 
+  return originPrice * 0.9
+}
+
+// 处理大促价
+function onSalePrice(originPrice) {
+  if(originPrice >= 100) {
+    return originPrice - 30
+  } 
+  return originPrice * 0.8
+}
+
+// 处理返场价
+function backPrice(originPrice) {
+  if(originPrice >= 200) {
+    return originPrice - 50
+  }
+  return originPrice
+}
+
+// 处理尝鲜价
+function freshPrice(originPrice) {
+  return originPrice * 0.5
+}
+
+function askPrice(tag, originPrice) {
+  // 处理预热价
+  if(tag === 'pre') {
+    return prePrice(originPrice)
+  }
+  // 处理大促价
+  if(tag === 'onSale') {
+    return onSalePrice(originPrice)
+  }
+
+  // 处理返场价
+  if(tag === 'back') {
+    return backPrice(originPrice)
+  }
+
+  // 处理尝鲜价
+  if(tag === 'fresh') {
+     return freshPrice(originPrice)
+  }
+}
+```
+
+OK，我们现在至少做到了一个函数只做一件事。现在每个函数都有了自己明确的、单一的分工：
+
+```javascript
+prePrice - 处理预热价
+onSalePrice - 处理大促价
+backPrice - 处理返场价
+freshPrice - 处理尝鲜价
+askPrice - 分发询价逻辑
+```
+
+如此一来，我们在遇到 Bug 时，就可以做到“头痛医头，脚痛医脚”，而不必在庞大的逻辑海洋里费力去定位到底是哪块不对。
+
+同时，如果我在另一个函数里也想使用某个询价能力，比如说我想询预热价，那我直接把 prePrice 这个函数拿去调用就是了，而不必在 askPrice 肥胖的身躯里苦苦寻觅、然后掏出这块逻辑、最后再复制粘贴到另一个函数去——更何况万一哪天 askPrice 里的预热价逻辑改了，你还得再复制粘贴一次，扎心啊老铁！
+
+到这里，在单一功能原则的指引下，我们已经解决了一半的问题。
+
+我们现在来捋一下，其实这个询价逻辑整体上来看只有两个关键动作：
+
+> 询价逻辑的分发 ——> 询价逻辑的执行
+
+在改造的第一步，我们已经把“询价逻辑的执行”给摘了出去，并且实现了不同询价逻辑之间的解耦。接下来，我们就要拿“分发”这个动作开刀。
+
+**开放封闭改造**
+
+剩下一半的问题是啥呢？就是咱们上面说的那个新人价的问题——这会儿我要想给 askPrice 增加新人询价逻辑，我该咋整？我只能这么来：
+
+```javascript
+// 处理预热价
+function prePrice(originPrice) {
+  if(originPrice >= 100) {
+    return originPrice - 20
+  } 
+  return originPrice * 0.9
+}
+
+// 处理大促价
+function onSalePrice(originPrice) {
+  if(originPrice >= 100) {
+    return originPrice - 30
+  } 
+  return originPrice * 0.8
+}
+
+// 处理返场价
+function backPrice(originPrice) {
+  if(originPrice >= 200) {
+    return originPrice - 50
+  }
+  return originPrice
+}
+
+// 处理尝鲜价
+function freshPrice(originPrice) {
+  return originPrice * 0.5
+}
+
+// 处理新人价
+function newUserPrice(originPrice) {
+  if(originPrice >= 100) {
+    return originPrice - 50
+  }
+  return originPrice
+}
+
+function askPrice(tag, originPrice) {
+  // 处理预热价
+  if(tag === 'pre') {
+    return prePrice(originPrice)
+  }
+  // 处理大促价
+  if(tag === 'onSale') {
+    return onSalePrice(originPrice)
+  }
+
+  // 处理返场价
+  if(tag === 'back') {
+    return backPrice(originPrice)
+  }
+
+  // 处理尝鲜价
+  if(tag === 'fresh') {
+     return freshPrice(originPrice)
+  }
+  
+  // 处理新人价
+  if(tag === 'newUser') {
+     return newUserPrice(originPrice)
+  }
+}
+```
+在外层，我们编写一个 newUser 函数用于处理新人价逻辑；在 askPrice 里面，我们新增了一个 if-else 判断。可以看出，这样其实还是在修改 askPrice 的函数体，没有实现“对扩展开放，对修改封闭”的效果。
+
+那么我们应该怎么做？我们仔细想想，楼上用了这么多 if-else，我们的目的到底是什么？是不是就是为了把 询价标签-询价函数 这个映射关系给明确下来？那么在 JS 中，有没有什么既能够既帮我们明确映射关系，同时不破坏代码的灵活性的方法呢？答案就是**对象映射**！
+
+咱们完全可以把询价算法全都收敛到一个对象里去嘛：
+
+```javascript
+// 定义一个询价处理器对象
+const priceProcessor = {
+  pre(originPrice) {
+    if (originPrice >= 100) {
+      return originPrice - 20;
+    }
+    return originPrice * 0.9;
+  },
+  onSale(originPrice) {
+    if (originPrice >= 100) {
+      return originPrice - 30;
+    }
+    return originPrice * 0.8;
+  },
+  back(originPrice) {
+    if (originPrice >= 200) {
+      return originPrice - 50;
+    }
+    return originPrice;
+  },
+  fresh(originPrice) {
+    return originPrice * 0.5;
+  },
+};
+```
+当我们想使用其中某个询价算法的时候：通过标签名去定位就好了：
+```javascript
+// 询价函数
+function askPrice(tag, originPrice) {
+  return priceProcessor[tag](originPrice)
+}
+```
+如此一来，askPrice 函数里的 if-else 大军彻底被咱们消灭了。这时候如果你需要一个新人价，只需要给 priceProcessor 新增一个映射关系：
+```javascript
+priceProcessor.newUser = function (originPrice) {
+  if (originPrice >= 100) {
+    return originPrice - 50;
+  }
+  return originPrice;
+}
+```
+这样一来，询价逻辑的分发也变成了一个清清爽爽的过程。当李雷以这种方式新增一个新人价的询价逻辑的时候，就可以底气十足地对测试同学说：老哥，我改了询价逻辑，但是改动范围仅仅涉及到新人价，是一个单纯的功能增加。所以你只测这个新功能点就 OK，老逻辑不用管！
+
+从此，李雷就从人人喊打的 if-else 侠，摇身一变成为了测试之友、中国好开发。业务代码里的询价逻辑，也因为李雷坚守设计原则100年不动摇，而变得易读、易维护。
+
+### 12.4 这，就是策略模式！
+
+说起来你可能不相信，咱们上面的整个重构的过程，就是对策略模式的应用。
+现在大家来品品策略模式的定义：
+
+> 定义一系列的算法,把它们一个个封装起来, 并且使它们可相互替换。
+
+回头看看，咱们忙活到现在，是不是就干了这事儿？
+
+但你要直接读这句话，可能确实会懵圈——啥是算法？如何封装？可替换又是咋做到的？
+
+如今你你已经自己动手实现了算法提取、算法封装、分发优化的整个一条龙的操作流，相信面对这条定义，你可以会心一笑——算法，就是我们这个场景中的询价逻辑，它也可以是你任何一个功能函数的逻辑；“封装”就是把某一功能点对应的逻辑给提出来；“可替换”建立在封装的基础上，只是说这个“替换”的判断过程，咱们不能直接怼 if-else，而要考虑更优的映射方案。
+
+## 13. 状态模式
+
+状态模式和策略模式宛如一对孪生兄弟——它们长得很像、解决的问题也可以说没啥本质上的差别。虽然现在的你可能和本书的主人公李雷一样，对状态模式怀揣着一种“我没见过你所以我觉得你一定很牛x”的敬畏之心。不过没关系，随着我们本节学习过程的展开，你会慢慢体会到状态模式带来的快乐~
+
+### 13.1 一杯咖啡带来的思考
+
+### 13.2 一台咖啡机的诞生
+
+作为一个具备强大抽象思维能力的程序员，李雷没有辜负自己这么多年来学过的现代前端框架。他敏锐地感知到，韩梅梅所说的这些不同的”选择“间的切换，本质就是状态的切换。在这个能做四种咖啡的咖啡机体内，蕴含着四种状态：
+
+```javascript
+- 美式咖啡态（american)：只吐黑咖啡
+- 普通拿铁态(latte)：黑咖啡加点奶
+- 香草拿铁态（vanillaLatte）：黑咖啡加点奶再加香草糖浆
+- 摩卡咖啡态(mocha)：黑咖啡加点奶再加点巧克力
+```
+
+嘿嘿，这么一梳理，李雷的思路一下子清晰了起来。作为死性不改的 if-else 侠，他再次三下五除二写出了一套功能完备的代码：
+
+```javascript
+class CoffeeMaker {
+  constructor() {
+    /**
+    这里略去咖啡机中与咖啡状态切换无关的一些初始化逻辑
+  **/
+    // 初始化状态，没有切换任何咖啡模式
+    this.state = 'init';
+  }
+
+  // 关注咖啡机状态切换函数
+  changeState(state) {
+    // 记录当前状态
+    this.state = state;
+    if(state === 'american') {
+      // 这里用 console 代指咖啡制作流程的业务逻辑
+      console.log('我只吐黑咖啡');
+    } else if(state === 'latte') {
+      console.log(`给黑咖啡加点奶`);
+    } else if(state === 'vanillaLatte') {
+      console.log('黑咖啡加点奶再加香草糖浆');
+    } else if(state === 'mocha') {
+      console.log('黑咖啡加点奶再加点巧克力');
+    }
+  }
+}
+```
+测试一下，完美无缺：
+
+```javascript
+const mk = new CoffeeMaker();
+mk.changeState('latte'); // 输出 '给黑咖啡加点奶'
+```
+
+### 13.3 不，我李雷必不可能再做 if-else 侠
+
+鉴于 if-else 使不得，李雷赶紧翻出了他在策略模式中学到的“单一职责”和“开放封闭”原则，比猫画虎地改造起了自己的咖啡机：
+
+### 13.4 改造咖啡机的状态切换机制
+
+**职责分离**
+
+首先，映入李雷眼帘最大的问题，就是咖啡制作过程不可复用：
+
+```javascript
+changeState(state) {
+    // 记录当前状态
+    this.state = state;
+    if(state === 'american') {
+      // 这里用 console 代指咖啡制作流程的业务逻辑
+      console.log('我只吐黑咖啡');
+    } else if(state === 'latte') {
+      console.log(`给黑咖啡加点奶`);
+    } else if(state === 'vanillaLatte') {
+      console.log('黑咖啡加点奶再加香草糖浆');
+    } else if(state === 'mocha') {
+      console.log('黑咖啡加点奶再加点巧克力');
+    }
+}
+```
+
+李雷发现，这个 changeState 函数，它好好管好自己的事（状态切换）不行吗？怎么连做咖啡的过程也写在这里面？这不合理。
+
+别的不说，就说咱李雷和韩梅梅都欲罢不能的香草拿铁吧：它是啥高深莫测的新品种么？它不是，它就是拿铁加点糖浆。那我至于把做拿铁的逻辑再在香草拿铁里写一遍么——完全不需要！直接调用拿铁制作工序对应的函数，然后末尾补个加糖浆的动作就行了——可惜，我们现在所有的制作工序都没有提出来函数化，而是以一种极不优雅的姿势挤在了 changeState 里面，谁也别想复用谁。太费劲了，咱们赶紧给它搞一搞职责分离：
+
+```javascript
+class CoffeeMaker {
+  constructor() {
+    /**
+    这里略去咖啡机中与咖啡状态切换无关的一些初始化逻辑
+  **/
+    // 初始化状态，没有切换任何咖啡模式
+    this.state = 'init';
+  }
+  changeState(state) {
+    // 记录当前状态
+    this.state = state;
+    if(state === 'american') {
+      // 这里用 console 代指咖啡制作流程的业务逻辑
+      this.americanProcess();
+    } else if(state === 'latte') {
+      this.latteProcress();
+    } else if(state === 'vanillaLatte') {
+      this.vanillaLatteProcress();
+    } else if(state === 'mocha') {
+      this.mochaProcress();
+    }
+  }
+  
+  americanProcess() {
+    console.log('我只吐黑咖啡');    
+  }
+  
+  latteProcress() {
+    this.americanProcess();
+    console.log('加点奶');  
+  }
+  
+  vanillaLatteProcress() {
+    this.latteProcress();
+    console.log('再加香草糖浆');
+  }
+  
+  mochaProcress() {
+    this.latteProcress();
+    console.log('再加巧克力');
+  }
+}
+
+const mk = new CoffeeMaker();
+mk.changeState('latte');
+```
+输出结果符合预期：
+```javascript
+我只吐黑咖啡
+加点奶
+```
+
+**开放封闭**
+
+复用的问题解决了，if-else 却仍然活得好好的。
+
+现在咱们假如要增加”气泡美式“这个咖啡品种，就不得不去修改 changeState 的函数逻辑，这违反了开放封闭的原则。
+
+同时，一个函数里收敛这么多判断，也着实不够体面。咱们现在要像策略模式一样，想办法把咖啡机状态和咖啡制作工序之间的映射关系（也就是咱们上节谈到的分发过程）用一个更优雅地方式做掉。如果你策略模式掌握得足够好，你会第一时间反映出对象映射的方案：
+
+```javascript
+const stateToProcessor = {
+  american() {
+    console.log('我只吐黑咖啡');    
+  },
+  latte() {
+    this.american();
+    console.log('加点奶');  
+  },
+  vanillaLatte() {
+    this.latte();
+    console.log('再加香草糖浆');
+  },
+  mocha() {
+    this.latte();
+    console.log('再加巧克力');
+  }
+}
+
+class CoffeeMaker {
+  constructor() {
+    /**
+    这里略去咖啡机中与咖啡状态切换无关的一些初始化逻辑
+  **/
+    // 初始化状态，没有切换任何咖啡模式
+    this.state = 'init';
+  }
+  
+  // 关注咖啡机状态切换函数
+  changeState(state) {
+    // 记录当前状态
+    this.state = state;
+    // 若状态不存在，则返回
+    if(!stateToProcessor[state]) {
+      return ;
+    }
+    stateToProcessor[state]();
+  }
+}
+
+const mk = new CoffeeMaker();
+mk.changeState('latte');
+```
+
+输出结果符合预期：
+
+```javascript
+我只吐黑咖啡
+加点奶
+```
+
+当我们这么做时，其实已经实现了一个 js 版本的状态模式。
+
+但这里有一点大家需要引起注意：这种方法仅仅是看上去完美无缺，其中却暗含一个非常重要的隐患——stateToProcessor 里的工序函数，感知不到咖啡机的内部状况。
+
+**策略与状态的辨析**
+
+怎么理解这个问题？大家知道，策略模式是对算法的封装。算法和状态对应的行为函数虽然本质上都是行为，但是算法的独立性可高多了。
+
+比如说我一个询价算法，我只需要读取一个数字，我就能啪啪三下五除二给你吐出另一个数字作为返回结果——它和计算主体之间可以是分离的，我们只要关注计算逻辑本身就可以了。
+
+但状态可不一样了。拿咱们咖啡机来说，为了好懂，咱写代码的时候把真正咖啡的制作工序用 console 来表示了。但大家都知道，做咖啡要考虑的东西可太多了。 比如咱们做拿铁，拿铁里的牛奶从哪来，是不是从咖啡机的某个储物空间里去取？再比如我们行为函数是不是应该时刻感知咖啡机每种原材料的用量、进而判断自己的工序还能不能如期执行下去？这就决定了行为函数必须能很方便地拿到咖啡机这个主体的各种信息——它必须得对主体有感知才行。
+
+策略模式和状态模式确实是相似的，它们都封装行为、都通过委托来实现行为分发。
+
+但策略模式中的行为函数是”潇洒“的行为函数，它们不依赖调用主体、互相平行、各自为政，井水不犯河水。而状态模式中的行为函数，首先是和状态主体之间存在着关联，由状态主体把它们串在一起；另一方面，正因为关联着同样的一个（或一类）主体，所以不同状态对应的行为函数可能并不会特别割裂。
+
+**进一步改造**
+
+按照我们这一通描述，当务之急是要把咖啡机和它的状态处理函数建立关联。
+
+如果你读过一些早期的设计模式教学资料，有一种思路是将每一个状态所对应的的一些行为抽象成类，然后通过传递 this 的方式来关联状态和状态主体。
+这种思路也可以，不过它一般还需要你实现抽象工厂，比较麻烦。实际业务中这种做法极为少见。我这里要给大家介绍的是一种更方便也更常用的解决方案——非常简单，把状态-行为映射对象作为主体类对应实例的一个属性添加进去就行了：
+
+```javascript
+class CoffeeMaker {
+  constructor() {
+    /**
+    这里略去咖啡机中与咖啡状态切换无关的一些初始化逻辑
+  **/
+    // 初始化状态，没有切换任何咖啡模式
+    this.state = 'init';
+    // 初始化牛奶的存储量
+    this.leftMilk = '500ml';
+  }
+  stateToProcessor = {
+    that: this,
+    american() {
+      // 尝试在行为函数里拿到咖啡机实例的信息并输出
+      console.log('咖啡机现在的牛奶存储量是:', this.that.leftMilk)
+      console.log('我只吐黑咖啡');
+    },
+    latte() {
+      this.american()
+      console.log('加点奶');
+    },
+    vanillaLatte() {
+      this.latte();
+      console.log('再加香草糖浆');
+    },
+    mocha() {
+      this.latte();
+      console.log('再加巧克力');
+    }
+  }
+
+  // 关注咖啡机状态切换函数
+  changeState(state) {
+    this.state = state;
+    if (!this.stateToProcessor[state]) {
+      return;
+    }
+    this.stateToProcessor[state]();
+  }
+}
+
+const mk = new CoffeeMaker();
+mk.changeState('latte');
+```
+
+输出结果为：
+
+```javascript
+咖啡机现在的牛奶存储量是: 500ml
+我只吐黑咖啡
+加点奶
+```
+
+如此一来，我们就可以在 stateToProcessor 轻松拿到咖啡机的实例对象，进而感知咖啡机这个主体了。
+
+### 13.5 状态模式复盘
+
+和策略模式一样，咱们仍然是敲完代码之后，一起来复盘一下状态模式的定义：
+
+> 状态模式(State Pattern) ：允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类。
+
+这个定义比较粗糙，可能你读完仍然 get 不到它想让你干啥。这时候，我们就应该把目光转移到它解决的问题上来：
+
+> 状态模式主要解决的是当控制一个对象状态的条件表达式过于复杂时的情况。把状态的判断逻辑转移到表示不同状态的一系列类中，可以把复杂的判断逻辑简化。
+
+仔细回忆一下我们这节做的事情，也确实就是这么回事儿。
+
+唯一的区别在于，定义里强调了”类“的概念。但我们的示例中，包括大家今后的实践中，一个对象的状态如果复杂到了你不得不给它的每 N 种状态划分为一类、一口气划分很多类这种程度，我更倾向于你去反思一个这个对象是不是做太多事情了。事实上，在大多数场景下，我们的行为划分，都是可以像本节一样，控制在”函数“这个粒度的。
+
+## 14 行为型：观察者模式——鬼故事：产品经理拉了一个钉钉群
+
+> 观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个目标对象，当这个目标对象的状态发生变化时，会通知所有观察者对象，使它们能够自动更新。 —— Graphic Design Patterns
+
+观察者模式，是所有 JavaScript 设计模式中**使用频率**最高，**面试频率也最高**的设计模式，所以说它**十分重要**——如果我是面试官，考虑到面试时间有限、设计模式这块不能多问，我可能在考查你设计模式的时候只会问观察者模式这一个模式。该模式的权重极高，我们此处会花费两个较长的章节把它掰碎嚼烂了来掌握。
+
+重点不一定是难点。观察者模式十分重要，但它并不抽象，理解难度不大。这种模式不仅在业务开发中遍地开花，在日常生活中也是非常常见的。为了帮助大家形成初步的理解，在进入代码世界之前，我们照例来看一段日常：
+
+### 14.1 生活中的观察者模式
+
+周一刚上班，前端开发李雷就被产品经理韩梅梅拉进了一个钉钉群——“员工管理系统需求第99次变更群”。这个群里不仅有李雷，还有后端开发 A，测试同学 B。三位技术同学看到这简单直白的群名便立刻做好了接受变更的准备、打算撸起袖子开始干了。此时韩梅梅却说：“别急，这个需求有问题，我需要和业务方再确认一下，大家先各忙各的吧”。这种情况下三位技术同学不必立刻投入工作，但他们都已经做好了本周需要做一个新需求的准备，时刻等待着产品经理的号召。
+
+一天过去了，两天过去了。周三下午，韩梅梅终于和业务方确认了所有的需求细节，于是在“员工管理系统需求第99次变更群”里大吼一声：“需求文档来了！”，随后甩出了"需求文档.zip"文件，同时@所有人。三位技术同学听到熟悉的“有人@我”提示音，立刻点开群进行群消息和群文件查收，随后根据群消息和群文件提供的需求信息，投入到了各自的开发里。上述这个过程，就是一个典型的观察者模式。
+
+**重点角色对号入座**
+
+观察者模式有一个“别名”，叫`发布 - 订阅模式`（之所以别名加了引号，是因为两者之间存在着细微的差异，下个小节里我们会讲到这点）。这个别名非常形象地诠释了观察者模式里两个核心的角色要素——`“发布者”`与`“订阅者”`。
+
+在上述的过程中，需求文档（目标对象）的发布者只有一个——产品经理韩梅梅。而需求信息的接受者却有多个——前端、后端、测试同学，这些同学的共性就是他们需要根据需求信息开展自己后续的工作、因此都非常关心这个需求信息，于是不得不时刻关注着这个群的群消息提醒，他们是实打实的订阅者，即观察者对象。
+
+现在我们再回过头来看一遍开头我们提到的略显抽象的定义：
+
+> 观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个目标对象，当这个目标对象的状态发生变化时，会通知所有观察者对象，使它们能够自动更新。
+
+在我们上文这个钉钉群里，一个需求信息对象对应了多个观察者（技术同学），当需求信息对象的状态发生变化（从无到有）时，产品经理通知了群里的所有同学，以便这些同学接收信息进而开展工作：角色划分 --> 状态变化 --> 发布者通知到订阅者，这就是观察者模式的“套路”。
+
+### 14.2 在实践中理解定义
+
+结合我们上面的分析，现在大家知道，在观察者模式里，至少应该有两个关键角色是一定要出现的——发布者和订阅者。用面向对象的方式表达的话，那就是要有**两个类**。
+
+首先我们来看这个代表发布者的类，我们给它起名叫Publisher。这个类应该具备哪些“基本技能”呢？大家回忆一下上文中的韩梅梅，韩梅梅的基本操作是什么？首先是拉群（增加订阅者），然后是@所有人（通知订阅者），这俩是最明显的了。此外作为群主&产品经理，韩梅梅还具有踢走项目组成员（移除订阅者）的能力。
+
+```javascript
+// 定义发布者类
+class Publisher {
+  constructor() {
+    this.observers = []
+    console.log('Publisher created')
+  }
+  // 增加订阅者
+  add(observer) {
+    console.log('Publisher.add invoked')
+    this.observers.push(observer)
+  }
+  // 移除订阅者
+  remove(observer) {
+    console.log('Publisher.remove invoked')
+    this.observers.forEach((item, i) => {
+      if (item === observer) {
+        this.observers.splice(i, 1)
+      }
+    })
+  }
+  // 通知所有订阅者
+  notify() {
+    console.log('Publisher.notify invoked')
+    this.observers.forEach((observer) => {
+      observer.update(this)
+    })
+  }
+}
+```
+
+ok，搞定了发布者，我们一起来想想订阅者能干啥——其实订阅者的能力非常简单，作为被动的一方，它的行为只有两个——被通知、去执行（本质上是接受发布者的调用，这步我们在Publisher中已经做掉了）。既然我们在Publisher中做的是方法调用，那么我们在订阅者类里要做的就是**方法的定义**：
+
+```javascript
+// 定义订阅者类
+class Observer {
+    constructor() {
+        console.log('Observer created')
+    }
+
+    update() {
+        console.log('Observer.update invoked')
+    }
+}
+```
+
+以上，我们就完成了最基本的发布者和订阅者类的设计和编写。在实际的业务开发中，我们所有的定制化的发布者/订阅者逻辑都可以基于这两个基本类来改写。比如我们可以通过拓展发布者类，来使所有的订阅者来**监听某个特定状态的变化**。仍然以开篇的例子为例，我们让开发者们来监听需求文档（prd）的变化：
+
+```javascript
+// 定义一个具体的需求文档（prd）发布类
+class PrdPublisher extends Publisher {
+    constructor() {
+        super()
+        // 初始化需求文档
+        this.prdState = null
+        // 韩梅梅还没有拉群，开发群目前为空
+        this.observers = []
+        console.log('PrdPublisher created')
+    }
+    
+    // 该方法用于获取当前的prdState
+    getState() {
+        console.log('PrdPublisher.getState invoked')
+        return this.prdState
+    }
+    
+    // 该方法用于改变prdState的值
+    setState(state) {
+        console.log('PrdPublisher.setState invoked')
+        // prd的值发生改变
+        this.prdState = state
+        // 需求文档变更，立刻通知所有开发者
+        this.notify()
+    }
+}
+```
+作为订阅方，开发者的任务也变得具体起来：接收需求文档、并开始干活：
+```javascript
+class DeveloperObserver extends Observer {
+    constructor() {
+        super()
+        // 需求文档一开始还不存在，prd初始为空对象
+        this.prdState = {}
+        console.log('DeveloperObserver created')
+    }
+    
+    // 重写一个具体的update方法
+    update(publisher) {
+        console.log('DeveloperObserver.update invoked')
+        // 更新需求文档
+        this.prdState = publisher.getState()
+        // 调用工作函数
+        this.work()
+    }
+    
+    // work方法，一个专门搬砖的方法
+    work() {
+        // 获取需求文档
+        const prd = this.prdState
+        // 开始基于需求文档提供的信息搬砖。。。
+        ...
+        console.log('996 begins...')
+    }
+}
+```
+下面，我们可以 new 一个 PrdPublisher 对象（产品经理），她可以通过调用 setState 方法来更新需求文档。需求文档每次更新，都会紧接着调用 notify 方法来通知所有开发者，这就实现了定义里所谓的：
+
+> 目标对象的状态发生变化时，会通知所有观察者对象，使它们能够自动更新。
+
+OK，下面我们来看看韩梅梅和她的小伙伴们是如何搞事情的吧：
+
+```javascript
+// 创建订阅者：前端开发李雷
+const liLei = new DeveloperObserver()
+// 创建订阅者：服务端开发小A（sorry。。。起名字真的太难了）
+const A = new DeveloperObserver()
+// 创建订阅者：测试同学小B
+const B = new DeveloperObserver()
+// 韩梅梅出现了
+const hanMeiMei = new PrdPublisher()
+// 需求文档出现了
+const prd = {
+    // 具体的需求内容
+    // ...
+}
+// 韩梅梅开始拉群
+hanMeiMei.add(liLei)
+hanMeiMei.add(A)
+hanMeiMei.add(B)
+// 韩梅梅发送了需求文档，并@了所有人
+hanMeiMei.setState(prd)
+```
+
+## 15. 行为型：观察者模式——面试真题手把手教学
+
+观察者模式作为一个超高频考点，在设计模式中具有举足轻重的地位。
+
+### 15.1 Vue数据双向绑定（响应式系统）的实现原理
+
+**解析**
+
+Vue 框架是热门的渐进式 JavaScript框架。在 Vue 中，当我们修改状态时，视图会随之更新，这就是Vue的数据双向绑定（又称响应式原理）。数据双向绑定是Vue 最独特的特性之一。如果读者没有接触过 Vue，强烈建议阅读Vue官方对响应式原理的介绍。此处我们用官方的一张流程图来简要地说明一下Vue响应式系统的整个流程：
+
+![-w683](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/27/15801091700628.jpg)
+
+在 Vue 中，每个组件实例都有相应的 watcher 实例对象，它会在组件渲染的过程中把属性记录为依赖，之后当依赖项的 setter 被调用时，会通知 watcher 重新计算，从而致使它关联的组件得以更新——这是一个典型的观察者模式。这道面试题考察了受试者对Vue底层原理的理解、对观察者模式的实现能力以及一系列重要的JS知识点，具有较强的综合性和代表性。
+
+在Vue数据双向绑定的实现逻辑里，有这样三个关键角色：
+
+- observer（监听器）：注意，此 observer 非彼 observer。在我们上节的解析中，observer 作为设计模式中的一个角色，代表“订阅者”。但在Vue数据双向绑定的角色结构里，所谓的 observer 不仅是一个数据监听器，它还需要对监听到的数据进行转发——也就是说它同时还是一个发布者。
+- watcher（订阅者）：observer 把数据转发给了真正的订阅者——watcher对象。watcher 接收到新的数据后，会去更新视图。
+- compile（编译器）：MVVM 框架特有的角色，负责对每个节点元素指令进行扫描和解析，指令的数据初始化、订阅者的创建这些“杂活”也归它管~
+
+这三者的配合过程如图所示：
+
+![-w495](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/27/15801093891862.jpg)
+
+OK，实现方案搞清楚了，下面我们给整个流程中涉及到发布-订阅这一模式的代码来个特写：
+
+#### 15.1.1 核心代码
+
+**实现observer**
+
+首先我们需要实现一个方法，这个方法会对需要监听的数据对象进行遍历、给它的属性加上定制的 getter 和 setter 函数。这样但凡这个对象的某个属性发生了改变，就会触发 setter 函数，进而通知到订阅者。这个 setter 函数，就是我们的监听器：
+
+```javascript
+// observe方法遍历并包装对象属性
+function observe(target) {
+    // 若target是一个对象，则遍历它
+    if(target && typeof target === 'object') {
+        Object.keys(target).forEach((key)=> {
+            // defineReactive方法会给目标属性装上“监听器”
+            defineReactive(target, key, target[key])
+        })
+    }
+}
+
+// 定义defineReactive方法
+function defineReactive(target, key, val) {
+    // 属性值也可能是object类型，这种情况下需要调用observe进行递归遍历
+    observe(val)
+    // 为当前属性安装监听器
+    Object.defineProperty(target, key, {
+         // 可枚举
+        enumerable: true,
+        // 不可配置
+        configurable: false, 
+        get: function () {
+            return val;
+        },
+        // 监听器函数
+        set: function (value) {
+            console.log(`${target}属性的${key}属性从${val}值变成了了${value}`)
+            val = value
+        }
+    });
+}
+```
+
+下面实现订阅者 Dep：
+
+```javascript
+// 定义订阅者类Dep
+class Dep {
+    constructor() {
+        // 初始化订阅队列
+        this.subs = []
+    }
+    
+    // 增加订阅者
+    addSub(sub) {
+        this.subs.push(sub)
+    }
+    
+    // 通知订阅者（是不是所有的代码都似曾相识？）
+    notify() {
+        this.subs.forEach((sub)=>{
+            sub.update()
+        })
+    }
+}
+```
+
+现在我们可以改写 defineReactive 中的 setter 方法，在监听器里去通知订阅者了：
+
+```javascript
+function defineReactive(target, key, val) {
+    const dep = new Dep()
+    // 监听当前属性
+    observe(val)
+    Object.defineProperty(target, key, {
+        set: (value) => {
+            // 通知所有订阅者
+            dep.notify()
+        }
+    })
+}
+```
+
+### 15.2 实现一个Event Bus/ Event Emitter
+
+Event Bus（Vue、Flutter 等前端框架中有出镜）和 Event Emitter（Node中有出镜）出场的“剧组”不同，但是它们都对应一个共同的角色——**全局事件总线**。
+
+全局事件总线，严格来说不能说是观察者模式，而是发布-订阅模式（具体的概念甄别我们会在下个小节着重讲）。它在我们日常的业务开发中应用非常广。
+
+**在Vue中使用Event Bus来实现组件间的通讯**
+
+Event Bus/Event Emitter 作为全局事件总线，它起到的是一个沟通桥梁的作用。我们可以把它理解为一个事件中心，我们所有事件的订阅/发布都不能由订阅方和发布方“私下沟通”，必须要委托这个事件中心帮我们实现。
+
+在Vue中，有时候 A 组件和 B 组件中间隔了很远，看似没什么关系，但我们希望它们之间能够通信。这种情况下除了求助于 Vuex 之外，我们还可以通过 Event Bus 来实现我们的需求。
+
+创建一个 Event Bus（本质上也是 Vue 实例）并导出：
+
+```javascript
+const EventBus = new Vue()
+export default EventBus
+```
+
+在主文件里引入EventBus，并挂载到全局：
+
+```javascript
+import bus from 'EventBus的文件路径'
+Vue.prototype.bus = bus
+```
+
+订阅事件：
+
+```javascript
+// 这里func指someEvent这个事件的监听函数
+this.bus.$on('someEvent', func)
+```
+
+发布（触发）事件：
+
+```javascript
+// 这里params指someEvent这个事件被触发时回调函数接收的入参
+this.bus.$emit('someEvent', params)
+```
+
+大家会发现，整个调用过程中，没有出现具体的发布者和订阅者（比如上节的PrdPublisher和DeveloperObserver），全程只有bus这个东西一个人在疯狂刷存在感。这就是全局事件总线的特点——所有事件的发布/订阅操作，必须经由事件中心，禁止一切“私下交易”！
+
+下面，我们就一起来实现一个Event Bus（注意看注释里的解析）：
+
+```javascript
+class EventEmitter {
+  constructor() {
+    // handlers是一个map，用于存储事件与回调之间的对应关系
+    this.handlers = {}
+  }
+
+  // on方法用于安装事件监听器，它接受目标事件名和回调函数作为参数
+  on(eventName, cb) {
+    // 先检查一下目标事件名有没有对应的监听函数队列
+    if (!this.handlers[eventName]) {
+      // 如果没有，那么首先初始化一个监听函数队列
+      this.handlers[eventName] = []
+    }
+
+    // 把回调函数推入目标事件的监听函数队列里去
+    this.handlers[eventName].push(cb)
+  }
+
+  // emit方法用于触发目标事件，它接受事件名和监听函数入参作为参数
+  emit(eventName, ...args) {
+    // 检查目标事件是否有监听函数队列
+    if (this.handlers[eventName]) {
+      // 如果有，则逐个调用队列里的回调函数
+      this.handlers[eventName].forEach((callback) => {
+        callback(...args)
+      })
+    }
+  }
+
+  // 移除某个事件回调队列里的指定回调函数
+  off(eventName, cb) {
+    const callbacks = this.handlers[eventName]
+    const index = callbacks.indexOf(cb)
+    if (index !== -1) {
+      callbacks.splice(index, 1)
+    }
+  }
+
+  // 为事件注册单次监听器
+  once(eventName, cb) {
+    // 对回调函数进行包装，使其执行完毕自动被移除
+    const wrapper = (...args) => {
+      cb.apply(...args)
+      this.off(eventName, wrapper)
+    }
+    this.on(eventName, wrapper)
+  }
+}
+```
+在日常的开发中，大家用到EventBus/EventEmitter往往提供比这五个方法多的多的多的方法。但在面试过程中，如果大家能够完整地实现出这五个方法，已经非常可以说明问题了，因此楼上这个EventBus希望大家可以熟练掌握。学有余力的同学，推荐阅读[FaceBook推出的通用EventEmiiter库的源码](https://github.com/facebook/emitter)，相信你会有更多收获。
+
+### 15.3 观察者模式与发布-订阅模式的区别是什么？
+
+在面试过程中，一些对细节比较在意的面试官可能会追问观察者模式与发布-订阅模式的区别。这个问题可能会引发一些同学的不适，因为在大量参考资料以及已出版的纸质书籍中，都会告诉大家“发布-订阅模式和观察者模式是同一个东西的两个名字”。本书在前文的叙述中，也没有突出强调两者的区别。其实这两个模式，要较起真来，确实不能给它们划严格的等号。
+
+为什么大家都喜欢给它们强行划等号呢？这是因为就算划了等号，也不影响我们正常使用，毕竟两者在核心思想、运作机制上没有本质的差别。但考虑到这个问题确实可以成为面试题的一个方向，此处我们还是单独拿出来讲一下。
+
+回到我们上文的例子里。韩梅梅把所有的开发者拉了一个群，直接把需求文档丢给每一位群成员，这种**发布者直接触及到订阅者**的操作，叫观察者模式。但如果韩梅梅没有拉群，而是把需求文档上传到了公司统一的需求平台上，需求平台感知到文件的变化、自动通知了每一位订阅了该文件的开发者，这种**发布者不直接触及到订阅者、而是由统一的第三方来完成实际的通信的操作，叫做发布-订阅模式**。
+
+相信大家也已经看出来了，观察者模式和发布-订阅模式之间的区别，在于是否存在第三方、发布者能否直接感知订阅者（如图所示）。
+
+![-w316](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/27/15801108638995.jpg)
+
+在我们见过的这些例子里，韩梅梅拉钉钉群的操作，就是典型的观察者模式；而通过EventBus去实现事件监听/发布，则属于发布-订阅模式。
+
+## 16. 行为型：迭代器模式——真·遍历专家
+
+> 迭代器模式提供一种方法顺序访问一个聚合对象中的各个元素，而又不暴露该对象的内部表示。 ——《设计模式：可复用面向对象软件的基础》
+
+迭代器模式是设计模式中少有的目的性极强的模式。所谓“目的性极强”就是说它不操心别的，它就解决这一个问题——遍历。
+
+### 16.1 “公元前”的迭代器模式
+
+遍历作为一种合理、高频的使用需求，几乎没有语言会要求它的开发者手动去实现。在JS中，本身也内置了一个比较简陋的数组迭代器的实现——Array.prototype.forEach。
+
+通过调用forEach方法，我们可以轻松地遍历一个数组：
+
+```javascript
+const arr = [1, 2, 3]
+arr.forEach((item, index)=>{
+    console.log(`索引为${index}的元素是${item}`)
+})
+```
+但forEach方法并不是万能的，比如下面这种场景：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>事件代理</title>
+</head>
+<body>
+    <a href="#">链接1号</a>
+    <a href="#">链接2号</a>
+    <a href="#">链接3号</a>
+    <a href="#">链接4号</a>
+    <a href="#">链接5号</a>
+    <a href="#">链接6号</a>
+</body>
+</html>
+```
+我想拿到所有的a标签，我可以这样做：
+
+```javascript
+const aNodes = document.getElementsByTagName('a')
+console.log('aNodes are', aNodes)
+```
+
+我想取其中一个a标签，可以这样做：
+
+```javascript
+const aNode = aNodes[i]
+```
+
+在这个操作的映衬下，aNodes看上去多么像一个数组啊！但当你尝试用数组的原型方法去遍历它时：
+
+```javascript
+aNodes.forEach((aNode, index){
+    console.log(aNode, index)
+})
+```
+你发现报错了：
+![-w529](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/27/15801110928208.jpg)
+
+震惊，原来这个aNodes是个假数组！准确地说，它是一个类数组对象，并没有为你实现好用的forEach方法。也就是说，要想实现类数组的遍历，你得另请高明。
+
+现在问题就出现了：普通数组是不是集合？是！aNodes是不是集合？是！同样是集合，同样有遍历需求，我们却要针对不同的数据结构执行不同的遍历手段，好累！再回头看看迭代器的定义是什么——遍历集合的同时，我们不需要关心集合的内部结构。而forEach只能做到允许我们不关心数组这一种集合的内部结构，看来想要一套统一的遍历方案，我们非得请出一个更强的通用迭代器不可了。
+
+这个小节的标题定语里有三个字“公元前”，这个“公元前”怎么定义呢？其实它说的就是ES标准内置迭代器之前的那些日子——差不多四五年之前，彼时还没有这么多轮子，jQuery风头正盛。当时面试可不问什么Vue原理、React原理、Webpack这些，当时问的最多的是你读过jQuery源码吗？答读过，好，那咱们就有的聊了。答没有？fine，看来你只是个调包侠，回见吧——因为前端的技术点在那时还很有限，所以可考察的东西也就这么点，读jQuery源码的程序员和不读jQuery源码的程序员在面试官眼里有着质的区别。但这也从一个侧面反映出来，jQuery这个库其实是非常优秀的，至少jQuery里有太多优秀的设计模式可以拿来考考你。就包括咱们当年想用一个真·迭代器又不想自己搞的时候，也是请jQuery实现的迭代器来帮忙：
+
+```html
+  <script src="https://cdn.bootcss.com/jquery/3.3.0/jquery.min.js" type="text/javascript"></script>
+```
+
+借助jQuery的each方法，我们可以用同一套遍历规则遍历不同的集合对象：
+
+```javascript
+const arr = [1, 2, 3]
+const aNodes = document.getElementsByTagName('a')
+
+$.each(arr, function (index, item) {
+  console.log(`数组的第${index}个元素是${item}`)
+})
+
+$.each(aNodes, function (index, aNode) {
+  console.log(`DOM类数组的第${index}个元素是${aNode.innerText}`)
+})
+```
+
+输出结果完全没问题：
+
+![-w676](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/27/15801111934002.jpg)
+当然啦，遍历jQuery自己的集合对象也不在话下：
+
+```javascript
+const jQNodes = $('a')
+$.each(jQNodes, function (index, aNode) {
+  console.log(`jQuery集合的第${index}个元素是${aNode.innerText}`)
+})
+```
+
+输出结果仍然没问题：
+
+![-w628](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/27/15801112261395.jpg)
+可以看出，jQuery的迭代器为我们统一了不同类型集合的遍历方式，使我们在访问集合内每一个成员时不用去关心集合本身的内部结构以及集合与集合间的差异，这就是迭代器存在的价值~
+
+### 16.2 ES6对迭代器的实现
+
+在“公元前”，JS原生的集合类型数据结构，只有Array（数组）和Object（对象）；而ES6中，又新增了Map和Set。四种数据结构各自有着自己特别的内部实现，但我们仍期待以同样的一套规则去遍历它们，所以ES6在推出新数据结构的同时也推出了一套统一的接口机制——迭代器（Iterator）。
+
+ES6约定，任何数据结构只要具备Symbol.iterator属性（这个属性就是Iterator的具体实现，它本质上是当前数据结构默认的迭代器生成函数），就可以被遍历——准确地说，是被for...of...循环和迭代器的next方法遍历。 事实上，for...of...的背后正是对next方法的反复调用。
+
+在ES6中，针对Array、Map、Set、String、TypedArray、函数的 arguments 对象、NodeList 对象这些原生的数据结构都可以通过for...of...进行遍历。原理都是一样的，此处我们拿最简单的数组进行举例，当我们用for...of...遍历数组时：
+
+```javascript
+const arr = [1, 2, 3]
+const len = arr.length
+for(item of arr) {
+    console.log(`当前元素是${item}`)
+}
+```
+
+之所以能够按顺序一次一次地拿到数组里的每一个成员，是因为我们借助数组的Symbol.iterator生成了它对应的迭代器对象，通过反复调用迭代器对象的next方法访问了数组成员，像这样：
+
+```javascript
+const arr = [1, 2, 3]
+// 通过调用iterator，拿到迭代器对象
+const iterator = arr[Symbol.iterator]()
+
+// 对迭代器对象执行next，就能逐个访问集合的成员
+iterator.next()
+iterator.next()
+iterator.next()
+```
+
+丢进控制台，我们可以看到next每次会按顺序帮我们访问一个集合成员：
+
+![-w670](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/27/15801117717996.jpg)
+
+而for...of...做的事情，基本等价于下面这通操作：
+
+```javascript
+// 通过调用iterator，拿到迭代器对象
+const iterator = arr[Symbol.iterator]()
+
+// 初始化一个迭代结果
+let now = { done: false }
+
+// 循环往外迭代成员
+while(!now.done) {
+    now = iterator.next()
+    if(!now.done) {
+        console.log(`现在遍历到了${now.value}`)
+    }
+}
+```
+
+可以看出，for...of...其实就是iterator循环调用换了种写法。在ES6中我们之所以能够开心地用for...of...遍历各种各种的集合，全靠迭代器模式在背后给力。
+
+### 16.3 一起实现一个迭代器生成函数吧!
+
+楼上我们说迭代器对象全凭迭代器生成函数帮我们生成。在ES6中，实现一个迭代器生成函数并不是什么难事儿，因为ES6早帮我们考虑好了全套的解决方案，内置了贴心的生成器（Generator）供我们使用：
+
+```js
+// 编写一个迭代器生成函数
+function *iteratorGenerator() {
+    yield '1号选手'
+    yield '2号选手'
+    yield '3号选手'
+}
+
+const iterator = iteratorGenerator()
+
+iterator.next()
+iterator.next()
+iterator.next()
+```
+
+丢进控制台，不负众望：
+
+![-w527](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/27/15801119304710.jpg)
+
+写一个生成器函数并没有什么难度，但在面试的过程中，面试官往往对生成器这种语法糖背后的实现逻辑更感兴趣。下面我们要做的，不仅仅是写一个迭代器对象，而是用ES5去写一个能够生成迭代器对象的迭代器生成函数（解析在注释里）：
+
+```js
+// 定义生成器函数，入参是任意集合
+function iteratorGenerator(list) {
+    // idx记录当前访问的索引
+    var idx = 0
+    // len记录传入集合的长度
+    var len = list.length
+    return {
+        // 自定义next方法
+        next: function() {
+            // 如果索引还没有超出集合长度，done为false
+            var done = idx >= len
+            // 如果done为false，则可以继续取值
+            var value = !done ? list[idx++] : undefined
+            
+            // 将当前值与遍历是否完毕（done）返回
+            return {
+                done: done,
+                value: value
+            }
+        }
+    }
+}
+
+var iterator = iteratorGenerator(['1号选手', '2号选手', '3号选手'])
+iterator.next()
+iterator.next()
+iterator.next()
+```
+
+此处为了记录每次遍历的位置，我们实现了一个闭包，借助自由变量来做我们的迭代过程中的“游标”。
+
+运行一下我们自定义的迭代器，结果符合预期：
+
+![-w537](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/27/15801119697700.jpg)
