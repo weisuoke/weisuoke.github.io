@@ -258,6 +258,11 @@ module.exports = {
             children: [
               "/fe2020/microFE/book-microFE.md"
             ]
+          },
+          {
+            title: "案例",
+            path: "/fe2020/case/",
+            collapsable: true,
           }
         ]
       },
