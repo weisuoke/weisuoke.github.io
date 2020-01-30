@@ -76,6 +76,7 @@
 - 使用intro.js实现分步骤帮助引导
 - 一个校验数据合法的轮子
 - 前端人工智能？TensorFlow.js 学会游戏通关
+- 在React中引入Vue3的reactivity分包来实现最强大的状态管理。
   
 ### 原理
 
@@ -94,6 +95,7 @@
 - Vue 3 SFC 来实现一个todoMVC
 - 边写边学系列（四）—— Gatsby 搭建炫酷屌炸天的个人博客
 - 使用 Nuxt (Vue.js)、Strapi 和 Apollo 构建博客
+- Gatsby 入门指南
 
 ### Github
 

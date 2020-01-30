@@ -1,10 +1,18 @@
 # 搭建一个React Component Library
 
+[[TOC]]
+
+## 0. 参考
+
 [Part1 --- The library itself and local development setup](https://medium.com/better-programming/building-a-react-components-library-f5a390d5973d)
 
 [Part2 --- Testing the components](https://medium.com/better-programming/building-a-react-components-library-6a05c2bca538)
 
-[[TOC]]
+[Part3 --- Bunding and publishing the library to the NPM](https://medium.com/better-programming/lets-build-react-components-library-part-3-b2e7aec478a2)
+
+[Part4 --- Auto deployment of the documentation to GitHub Pages](https://medium.com/@tomasz.fiechowski/building-a-react-components-library-2e116df187b5)
+
+
 
 ## 1. 技术栈
 
@@ -361,3 +369,514 @@ test("should make text uppercase", () => {
 ```
 
 ![-w309](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/29/15802878956341.jpg)
+
+## 4. 打包并发布组件
+
+### 4.1 Library入口
+
+`package.json`中新增
+
+```json
+// package.json
+{
+  // ...
+  "main": "lib/index.js"
+  // ...
+}
+```
+
+新建`src/index.js`
+
+```js
+export { default as Button } from "components/Button"
+```
+
+### 4.2 打包 Library
+
+这里使用 Rollup 来进行打包
+
+安装依赖
+
+```
+npm install --save-dev rollup-plugin-commonjs rollup-plugin-babel
+```
+
+创建 Rollup 配置文件`rollup.config.js`
+
+```js
+// rollup.config.js
+
+import babel from "rollup-plugin-babel";
+import commonjs from "rollup-plugin-commonjs";
+
+import packageJSON from "./package.json";
+const input = "./src/index.js";
+
+export default [
+  // CommonJS
+  {
+    input,
+    output: {
+      file: packageJSON.main,
+      format: "cjs"
+    },
+    plugins: [
+      babel({
+        exclude: "node_modules/**"
+      }),
+      commonjs()
+    ]
+  }
+];
+```
+
+配置文件中有两个字段`input`和`output`，这里告诉Rollup打包的入口`./src/index.js`和出口`lib/index.js`。打包出来的文件是 CommonJS 格式。打包脚本是 `"build": "rollup -c"`
+
+### 4.3 Resolving Modules
+
+处理第三方 Modules
+
+```
+npm install --save-dev rollup-plugin-node-resolve
+```
+
+添加至 rollup 配置文件
+
+```js
+// rollup.config.js
+
+import babel from "rollup-plugin-babel";
+import commonjs from "rollup-plugin-commonjs";
+import resolve from "rollup-plugin-node-resolve";
+
+import packageJSON from "./package.json";
+const input = "./src/index.js";
+
+export default [
+  // CommonJS
+  {
+    input,
+    output: {
+      file: packageJSON.main,
+      format: "cjs"
+    },
+    plugins: [
+      babel({
+        exclude: "node_modules/**"
+      }),
+      resolve(),
+      commonjs()
+    ]
+  }
+];
+```
+
+### 4.4 处理 Peer 依赖
+
+在第一部分，我们添加了 React 和 Emotion 作为 peer dependencies. 这些依赖不会打包进入 code
+
+
+
+使用`rollup-plugin-peer-deps-external`来处理
+
+```
+npm install rollup-plugin-peer-deps-external --save-dev
+```
+
+```js
+// rollup.config.js
+import babel from "rollup-plugin-babel";
+import commonjs from "rollup-plugin-commonjs";
+import resolve from "rollup-plugin-node-resolve";
+import external from "rollup-plugin-peer-deps-external";
+
+import packageJSON from "./package.json";
+const input = "./src/index.js";
+
+export default [
+  // CommonJS
+  {
+    input,
+    output: {
+      file: packageJSON.main,
+      format: "cjs"
+    },
+    plugins: [
+      babel({
+        exclude: "node_modules/**"
+      }),
+      external(),
+      resolve(),
+      commonjs()
+    ]
+  }
+];
+```
+
+### 4.5 压缩
+
+使用`rollup-plugin-uglify`来压缩
+
+```
+npm install --save-dev rollup-plugin-uglify
+```
+
+修改`rollup.config.js`打包出一个一个普通的版本和一个压缩的版本
+
+```js
+// rollup.config.js
+import babel from "rollup-plugin-babel";
+import commonjs from "rollup-plugin-commonjs";
+import resolve from "rollup-plugin-node-resolve";
+import external from "rollup-plugin-peer-deps-external";
+import { uglify } from "rollup-plugin-uglify";
+
+import packageJSON from "./package.json";
+const input = "./src/index.js";
+const minifyExtension = pathToFile => pathToFile.replace(/\.js$/, ".min.js");
+
+export default [
+  // CommonJS
+  {
+    input,
+    output: {
+      file: packageJSON.main,
+      format: "cjs"
+    },
+    plugins: [
+      babel({
+        exclude: "node_modules/**"
+      }),
+      external(),
+      resolve(),
+      commonjs()
+    ]
+  },
+  {
+    input,
+    output: {
+      file: minifyExtension(packageJSON.main),
+      format: "cjs"
+    },
+    plugins: [
+      babel({
+        exclude: "node_modules/**"
+      }),
+      external(),
+      resolve(),
+      commonjs(),
+      uglify()
+    ]
+  }
+];
+```
+
+### 4.6 其他类型：UMD, ES
+
+- browser: for the UMD build
+- module: for the ES bundle format
+
+在package.json中添加
+
+```json
+{
+  // ...
+  "main": "lib/index.js",
+  "browser": "lib/index.umd.js",
+  "module": "lib/index.es.js",
+  // ...
+}
+```
+
+**添加UMD打包内容**
+
+```js
+// rollup.config.js
+
+import babel from "rollup-plugin-babel";
+import commonjs from "rollup-plugin-commonjs";
+import resolve from "rollup-plugin-node-resolve";
+import external from "rollup-plugin-peer-deps-external";
+import { terser } from "rollup-plugin-terser";
+import { uglify } from "rollup-plugin-uglify";
+import packageJSON from "./package.json";
+
+const input = "./src/index.js";
+const minifyExtension = pathToFile => pathToFile.replace(/\.js$/, ".min.js");
+
+export default [
+  // CommonJS ...
+  // UMD
+  {
+    input,
+    output: {
+      file: packageJSON.browser,
+      format: "umd",
+      name: "reactSampleComponentsLibrary",
+      globals: {
+        react: "React",
+        "@emotion/styled": "styled",
+        "@emotion/core": "core"
+      }
+    },
+    plugins: [
+      babel({
+        exclude: "node_modules/**"
+      }),
+      external(),
+      resolve(),
+      commonjs()
+    ]
+  },
+  {
+    input,
+    output: {
+      file: minifyExtension(packageJSON.browser),
+      format: "umd",
+      name: "reactSampleComponentsLibrary",
+      globals: {
+        react: "React",
+        "@emotion/styled": "styled",
+        "@emotion/core": "core"
+      }
+    },
+    plugins: [
+      babel({
+        exclude: "node_modules/**"
+      }),
+      external(),
+      resolve(),
+      commonjs(),
+      terser()
+    ]
+  },
+  // ES ...
+];
+```
+
+**ES Module**
+
+```js
+// rollup.config.js
+import babel from "rollup-plugin-babel";
+import commonjs from "rollup-plugin-commonjs";
+import resolve from "rollup-plugin-node-resolve";
+import external from "rollup-plugin-peer-deps-external";
+import { terser } from "rollup-plugin-terser";
+import { uglify } from "rollup-plugin-uglify";
+import packageJSON from "./package.json";
+
+const input = "./src/index.js";
+const minifyExtension = pathToFile => pathToFile.replace(/\.js$/, ".min.js");
+
+export default [
+  // CommonJS ...
+  // UMD ...
+  // ES
+  {
+    input,
+    output: {
+      file: packageJSON.module,
+      format: "es",
+      exports: "named"
+    },
+    plugins: [
+      babel({
+        exclude: "node_modules/**"
+      }),
+      external(),
+      resolve(),
+      commonjs()
+    ]
+  },
+  {
+    input,
+    output: {
+      file: minifyExtension(packageJSON.module),
+      format: "es",
+      exports: "named"
+    },
+    plugins: [
+      babel({
+        exclude: "node_modules/**"
+      }),
+      external(),
+      resolve(),
+      commonjs(),
+      terser()
+    ]
+  }
+];
+```
+
+### 4.7 发布前准备
+
+向 `package.json` 添加下列 "script"
+
+```json
+{
+	// ...
+  "script": {
+    "prepublishOnly": "rm -rf lib && npm run build",
+    "postbuild": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz"
+  }
+  // ...
+}
+```
+
+使用`npm login`进行登录
+
+如果没有注册npm账号，前往[npm](www.npmjs.com)进行注册
+
+### 4.8 发布package到NPM
+
+使用`npm publish`
+
+### 4.9 优化打包
+
+![-w1156](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/30/15803520853612.jpg)
+
+使用`npm publish`打包后的文件，有很多文件是不需要打包的。
+
+在`package.json`添加files的字段来指定打包的文件
+
+```json
+{
+  // ...
+  files: [
+    "/lib"
+  ]
+  // ...
+}
+```
+
+
+
+## 5. 自动发布文档到Github Pages
+
+### 5.1 生成文档
+
+Styleguidist可以让我们实时开发React组件，同时能够生成文档
+
+在`package.json`添加下述命令行
+
+```json
+{
+  // ...
+	"scripts": {
+    "docs:build": "styleguidist build"
+  }
+}
+```
+
+更改`styleguide.config.js`配置文件
+
+```js
+module.exports = {
+  webpackConfig: {
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          loader: "babel-loader"
+        }
+      ]
+    }
+  },
+  title: "React Sample Components Library",
+  styleguideDir: "dist-docs"
+};
+```
+
+执行`npm run docs:build`后，打开dist-docs/index.html
+![-w1515](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/30/15803547078013.jpg)
+
+这里的`./Button`需要替换
+
+### 5.2 替换import 依赖
+
+修改`styleguide.config.js`
+
+```js
+const path = require("path");
+
+module.exports = {
+  webpackConfig: {
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          loader: "babel-loader"
+        }
+      ]
+    }
+  },
+  title: "React Sample Components Library",
+  styleguideDir: "dist-docs",
+  moduleAliases: {
+    "react-sample-components-library": path.resolve(__dirname, "src")
+  }
+};
+```
+
+修改Button.md文件中的内容
+
+```markdown
+A very simple button.
+
+​```jsx
+import { Button } from "react-sample-components-library";
+
+<Button text="I MUST BE DREAMING" />
+```
+
+![-w1651](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/30/15803565753466.jpg)
+
+### 5.3 设置Github
+
+[Github](https://github.com/settings/tokens/new)
+
+![-w748](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/30/15803567782123.jpg)
+
+生成一个token
+
+### 5.4 设置TravisCI
+
+[TravisCI](https://travis-ci.org/account/repositories)
+
+![-w685](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/30/15803570370214.jpg)
+
+配置Github Token
+
+![-w1372](http://wsk-mweb.oss-cn-hangzhou.aliyuncs.com/2020/01/30/15803573551152.jpg)
+
+### 5.5 TravisCI 配置文件
+
+新建`.travis.yml`
+
+```yaml
+language: node_js
+node_js: stable
+
+cache:
+  directories:
+    - node_modules
+
+before_deploy:
+  - "npm run docs:build"
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist-docs
+  on:
+    branch: master
+```
+
+### 5.6 部署文档
+
+Commit `.travis.yml`。
+

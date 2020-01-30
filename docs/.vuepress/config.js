@@ -8,13 +8,8 @@ module.exports = {
     nav: [
       { text: "主页", link: "/" },
       {
-        text: "前端精进手册",
-        link: "/fe/",
-        items: [
-          { text: "React", link: "/fe/react/" },
-          { text: "Vue", link: "/fe/vue/" },
-          { text: "Webpack", link: "/fe/webpack/" }
-        ]
+        text: "前端精进2020",
+        link: "/fe2020/",
       },
       {
         text: "算法学习",
@@ -39,6 +34,59 @@ module.exports = {
     ],
     lastUpdated: "更新时间",
     sidebar: [
+      {
+        title: "前端精进2020",
+        path: "/fe2020/",
+        collapsable: true,
+        sidebarDepth: 1,
+        children: [
+          {
+            title: "Vue",
+            path: "/fe2020/Vue/",
+            collapsable: true,
+          },
+          {
+            title: "React",
+            path: "/fe2020/React/",
+            collapsable: true,
+          },
+          {
+            title: "设计模式",
+            path: "/fe2020/Gof/",
+            collapsable: true,
+            sidebarDepth: 2,
+            children: [
+              "/fe2020/Gof/zhufeng-GoF.md",
+              "/fe2020/Gof/juejin-GoF.md"
+            ]
+          },
+          {
+            title: "数据结构与算法",
+            path: "/fe2020/algorithm/",
+            collapsable: true,
+            sidebarDepth: 2,
+          },
+          {
+            title: "微前端",
+            path: "/fe2020/microFE/",
+            collapsable: true,
+            sidebarDepth: 2,
+            children: [
+              "/fe2020/microFE/book-microFE.md"
+            ]
+          },
+          {
+            title: "案例",
+            path: "/fe2020/case/",
+            collapsable: true,
+          },
+          {
+            title: "个人项目",
+            path: "/fe2020/project/",
+            collapsable: true,
+          }
+        ]
+      },
       {
         title: "前端精进手册", // 必要的
         path: "/fe/", // 可选的, 应该是一个绝对路径
@@ -215,54 +263,6 @@ module.exports = {
             path: "/fe/security/",
             collapsable: true,
             sidebarDepth: 2
-          }
-        ]
-      },
-      {
-        title: "前端精进2020",
-        path: "/fe2020/",
-        collapsable: true,
-        sidebarDepth: 1,
-        children: [
-          {
-            title: "Vue",
-            path: "/fe2020/Vue/",
-            collapsable: true,
-          },
-          {
-            title: "React",
-            path: "/fe2020/React/",
-            collapsable: true,
-          },
-          {
-            title: "设计模式",
-            path: "/fe2020/Gof/",
-            collapsable: true,
-            sidebarDepth: 2,
-            children: [
-              "/fe2020/Gof/zhufeng-GoF.md",
-              "/fe2020/Gof/juejin-GoF.md"
-            ]
-          },
-          {
-            title: "数据结构与算法",
-            path: "/fe2020/algorithm/",
-            collapsable: true,
-            sidebarDepth: 2,
-          },
-          {
-            title: "微前端",
-            path: "/fe2020/microFE/",
-            collapsable: true,
-            sidebarDepth: 2,
-            children: [
-              "/fe2020/microFE/book-microFE.md"
-            ]
-          },
-          {
-            title: "案例",
-            path: "/fe2020/case/",
-            collapsable: true,
           }
         ]
       },
