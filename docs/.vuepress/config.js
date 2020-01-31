@@ -12,17 +12,16 @@ module.exports = {
         link: "/fe2020/",
       },
       {
+        text: "Github漫游指南",
+        link: "/github/my-github",
+      },
+      {
         text: "算法学习",
         link: "/algorithm/",
         items: [
           { text: "数据结构", link: "/algorithm/ds/" },
           { text: "算法", link: "/algorithm/ag/" }
         ]
-      },
-      {
-        text: "玩转Github",
-        link: "/github/",
-        items: [{ text: "我的github", link: "/github/my-github" }]
       },
       { text: "效率", link: "/effective/" },
       { text: "读书笔记", link: "/reading/" },
@@ -40,6 +39,21 @@ module.exports = {
         collapsable: true,
         sidebarDepth: 1,
         children: [
+          {
+            title: "成长",
+            path: "/fe2020/grow/",
+            collapsable: true,
+          },
+          {
+            title: "js基础",
+            path: "/fe2020/js-basic/",
+            collapsable: true,
+          },
+          {
+            title: "js技巧",
+            path: "/fe2020/js-skill/",
+            collapsable: true,
+          },
           {
             title: "Vue",
             path: "/fe2020/Vue/",
@@ -137,7 +151,6 @@ module.exports = {
               "/fe/js-implement/deepClone.md",
               "/fe/js-implement/Symbol.md",
               "/fe/js-implement/flatten.md",
-              "/fe/js-implement/unique.md",
               "/fe/js-implement/Promise",
               "/fe/js-implement/jsonp",
               "/fe/js-implement/my-webpack"

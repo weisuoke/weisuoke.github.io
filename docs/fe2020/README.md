@@ -29,6 +29,10 @@
 
 - Ant Design 4.0
 
+#### 非主流
+
+- [lugia](https://github.com/lugia-ysstech/lugia)
+
 ### 基础
 
 - match、matchAll、g标志，看完不再晕
@@ -59,6 +63,8 @@
 - 状态管理中的第一性原理
 - 使用 React 的 Context API 来管理数据
 - Antd Form 实现机制解析
+- 阿里p6面经
+- 面试官：请你在React中引入Vue3的@vue/reactivity，实现响应式。
 
 ### 好玩
 
@@ -96,6 +102,12 @@
 - 边写边学系列（四）—— Gatsby 搭建炫酷屌炸天的个人博客
 - 使用 Nuxt (Vue.js)、Strapi 和 Apollo 构建博客
 - Gatsby 入门指南
+- React + TypeScript + Node.JS实现一个后台管理系统
+- [手摸手，打造属于自己的 React 组件库](https://github.com/jokingzhang/blog/issues/1)
+- 撸一个前端监控系统（React + Node + Mysql + Webpack plugin + Docker）
+- 硬核开源，使用 react-hooks 手写 ant-design-pro，搭配 node 完整api
+- 重拳出击：打造 Vue3.0 + Typescript + TSX 开(乞)发(丐)模式
+- 如何在Vue中使用lottie加载SVG动画
 
 ### Github
 
