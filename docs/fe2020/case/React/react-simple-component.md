@@ -12,7 +12,8 @@
 
 [Part4 --- Auto deployment of the documentation to GitHub Pages](https://medium.com/@tomasz.fiechowski/building-a-react-components-library-2e116df187b5)
 
-
+- [完成Github](https://github.com/weisuoke/react-sample-components-library)
+- [完成Github Pages](http://react-sample-components-library.wuxiao.io)
 
 ## 1. 技术栈
 
