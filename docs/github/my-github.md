@@ -10,6 +10,7 @@ sidebar: false
 
 - [sindresorhus/awesome](https://github.com/sindresorhus/awesome/)
 - **[Public-APIs](https://github.com/n0shake/Public-APIs)**
+- [dashboards](https://github.com/omarkdev/awesome-dashboards)
 
 ### Front-End Development
 

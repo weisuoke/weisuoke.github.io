@@ -75,4 +75,4 @@ getSafe(() => obj.a.lot.of.properties, 'nothing');
 
 ## A 参考阅读
 
-- [4 Ways to Safely Access Nested Objects in Vanilla Javascript](https://medium.com/better-programming/4-ways-to-safely-access-nested-objects-in-vanilla-javascript-8671d09348a)
+- [4 Ways to Safely Access Nested Objects in Vanilla Javascript](https://medium.com/better-programming/4-ways-to-safely-access-nested-objects-in-vanilla-javascript-8671d09348a8)
