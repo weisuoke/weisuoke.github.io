@@ -63,6 +63,8 @@ sidebar: false
 - [VincentGarreau/particles.js](https://github.com/VincentGarreau/particles.js/): 😺 一个用来在 web 中创建炫酷的浮动粒子的库
 - [alvarotrigo/fullPage.js](https://github.com/alvarotrigo/fullpage.js): 👀 快速实现全屏滚动特性
 - [mattboldt/typed.js](https://github.com/mattboldt/typed.js): 👀 打字机效果
+- [highlight.js](https://highlightjs.org/): web 语法高亮
+- [wycats/handlebars.js](https://github.com/wycats/handlebars.js): 👓Javascript 模板
 
 ## 我的 Github
 
