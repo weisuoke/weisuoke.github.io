@@ -9,6 +9,7 @@ sidebar: false
 ## Awesome
 
 - [sindresorhus/awesome](https://github.com/sindresorhus/awesome/)
+- [Open Source](https://awesomeopensource.com/)
 - **[Public-APIs](https://github.com/n0shake/Public-APIs)**
 - [dashboards](https://github.com/omarkdev/awesome-dashboards)
 
@@ -32,6 +33,10 @@ sidebar: false
   - [polymer](https://github.com/Granze/awesome-polymer)
 - [Flutter](https://github.com/Solido/awesome-flutter)
 - [React Native](https://github.com/jondot/awesome-react-native)
+- [FP](https://github.com/stoeffel/awesome-fp-js)
+- [FRP](https://github.com/stoeffel/awesome-frp-js)
+  - [RxJS](https://github.com/ichpuchtli/awesome-rxjs)
+- [Observables](https://github.com/sindresorhus/awesome-observables)
 - [CSS](https://github.com/awesome-css-group/awesome-css)
   - [Sass](https://github.com/Famolus/awesome-sass)
   - [Less](https://github.com/LucasBassetti/awesome-less)

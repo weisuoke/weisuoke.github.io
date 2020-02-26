@@ -55,6 +55,11 @@ module.exports = {
             collapsable: true,
           },
           {
+            title: "手写代码/模拟实现",
+            path: "/fe2020/js-implement/",
+            collapsable: true,
+          },
+          {
             title: "Vue",
             path: "/fe2020/Vue/",
             collapsable: true,
@@ -62,6 +67,11 @@ module.exports = {
           {
             title: "React",
             path: "/fe2020/React/",
+            collapsable: true,
+          },
+          {
+            title: "FP",
+            path: "/fe2020/FP/",
             collapsable: true,
           },
           {
@@ -137,8 +147,6 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,
             children: [
-              "/fe/js-implement/call.md",
-              "/fe/js-implement/bind.md",
               "/fe/js-implement/debounce.md",
               "/fe/js-implement/throttle.md",
               "/fe/js-implement/instanceof.md",
