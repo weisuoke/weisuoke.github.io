@@ -50,6 +50,11 @@ module.exports = {
             collapsable: true,
           },
           {
+            title: "ES6+",
+            path: "/fe2020/es6/",
+            collapsable: true,
+          },
+          {
             title: "js技巧",
             path: "/fe2020/js-skill/",
             collapsable: true,
@@ -147,15 +152,6 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,
             children: [
-              "/fe/js-implement/debounce.md",
-              "/fe/js-implement/throttle.md",
-              "/fe/js-implement/instanceof.md",
-              "/fe/js-implement/reduce.md",
-              "/fe/js-implement/new.md",
-              "/fe/js-implement/aop.md",
-              "/fe/js-implement/curry.md",
-              "/fe/js-implement/JSON.stringify.md",
-              "/fe/js-implement/JSON.parse.md",
               "/fe/js-implement/deepClone.md",
               "/fe/js-implement/Symbol.md",
               "/fe/js-implement/flatten.md",
