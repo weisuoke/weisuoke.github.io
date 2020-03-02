@@ -1,18 +1,15 @@
 # 模拟实现/手写系列
 
-1.  [JSON.parse的实现](/fe/js-implement/JSON.parse)
-2.  [深浅拷贝](/fe/js-implement/deepClone)
-3.  [Symbol的模拟实现](/fe/js-implement/Symbol)
-4.  [数组扁平化](/fe/js-implement/flatten)
-5.  [实现(5).add(3).minus(2)的功能](/fe/js-implement/number-operator)
-6.  [sleep实现](/fe/js-implement/sleep)
-7.  [Set实现](/fe/js-implement/Set)
-8.  [惰性函数](/fe/js-implement/Lazy-Function)
-9.  [回文](/fe/js-implement/Palindromes.md)
-10. [数组查找指定元素](/fe/js-implement/array-find.md)
-11. [实现小型打包工具](/fe/js-implement/my-webpack.md)
-12. [函数记忆](/fe/js-implement/momize.md)
-13. [Promise](/fe/js-implement/Promise)
+1.  [深浅拷贝](/fe/js-implement/deepClone)
+2.  [Symbol的模拟实现](/fe/js-implement/Symbol)
+3.  [数组扁平化](/fe/js-implement/flatten)
+4.  [实现(5).add(3).minus(2)的功能](/fe/js-implement/number-operator)
+5.  [sleep实现](/fe/js-implement/sleep)
+6.  [Set实现](/fe/js-implement/Set)
+7.  [回文](/fe/js-implement/Palindromes.md)
+8.  [数组查找指定元素](/fe/js-implement/array-find.md)
+9.  [实现小型打包工具](/fe/js-implement/my-webpack.md)
+10. [Promise](/fe/js-implement/Promise)
 
 ## 未归档
 
