@@ -11,3 +11,4 @@
 - [实现一个 throttle](/fe2020/js-implement/throttle.md)
 - [实现 aop](/fe2020/js-implement/aop.md)
 - [惰性函数](/fe2020/js-implement/惰性函数.md)
+- [函数记忆](/fe2020/js-implement/memoize.md)
