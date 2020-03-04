@@ -152,9 +152,6 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,
             children: [
-              "/fe/js-implement/deepClone.md",
-              "/fe/js-implement/Symbol.md",
-              "/fe/js-implement/flatten.md",
               "/fe/js-implement/Promise",
               "/fe/js-implement/jsonp",
               "/fe/js-implement/my-webpack"

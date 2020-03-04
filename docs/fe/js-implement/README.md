@@ -1,23 +1,16 @@
 # 模拟实现/手写系列
 
-1.  [深浅拷贝](/fe/js-implement/deepClone)
-2.  [Symbol的模拟实现](/fe/js-implement/Symbol)
-3.  [数组扁平化](/fe/js-implement/flatten)
-4.  [实现(5).add(3).minus(2)的功能](/fe/js-implement/number-operator)
-5.  [sleep实现](/fe/js-implement/sleep)
-6.  [Set实现](/fe/js-implement/Set)
-7.  [回文](/fe/js-implement/Palindromes.md)
-8.  [数组查找指定元素](/fe/js-implement/array-find.md)
-9.  [实现小型打包工具](/fe/js-implement/my-webpack.md)
-10. [Promise](/fe/js-implement/Promise)
+1.  [实现(5).add(3).minus(2)的功能](/fe/js-implement/number-operator)
+2.  [回文](/fe/js-implement/Palindromes.md)
+3.  [数组查找指定元素](/fe/js-implement/array-find.md)
+4.  [实现小型打包工具](/fe/js-implement/my-webpack.md)
+5.  [Promise](/fe/js-implement/Promise)
 
 ## 未归档
 
 > [【前端面试】同学，你会手写代码吗？](https://juejin.im/post/5c9edb066fb9a05e267026dc)
 
 - 实现generator的自动执行器
-- 实现一个路由 - Hash
-- 实现一个路由 - history
 
 > [前端笔试之手写代码(一)](https://juejin.im/post/5c71434a6fb9a049fa10633c)
 
@@ -44,7 +37,6 @@
 - co函数
 - 如何主动中止Promise调用链
 - bluebird.promisify实现（将异步回调函数api 转换为promise形式）
-- 二分查找
 - 找出数组中重复出现过的元素
 - 数组中按照数字重复出现的次数进行排序
 - 不用循环，创建一个长度为 100 的数组，并且每个元素的值等于它的下标。
