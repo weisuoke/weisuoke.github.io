@@ -154,7 +154,6 @@ module.exports = {
             children: [
               "/fe/js-implement/Promise",
               "/fe/js-implement/jsonp",
-              "/fe/js-implement/my-webpack"
             ]
           },
           // 原理系列

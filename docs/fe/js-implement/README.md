@@ -1,10 +1,8 @@
 # 模拟实现/手写系列
 
-1.  [实现(5).add(3).minus(2)的功能](/fe/js-implement/number-operator)
-2.  [回文](/fe/js-implement/Palindromes.md)
-3.  [数组查找指定元素](/fe/js-implement/array-find.md)
-4.  [实现小型打包工具](/fe/js-implement/my-webpack.md)
-5.  [Promise](/fe/js-implement/Promise)
+1.  [实现(5).add(3).minus(2)的功能](/fe/js-implement/number-operator)s
+2.  [数组查找指定元素](/fe/js-implement/array-find.md)
+3.  [Promise](/fe/js-implement/Promise)
 
 ## 未归档
 

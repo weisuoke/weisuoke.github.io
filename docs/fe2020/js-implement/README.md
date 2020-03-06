@@ -19,3 +19,5 @@
 - [Hash 路由](/fe2020/js-implement/Hash路由.md)
 - [History 路由](/fe2020/js-implement/History路由.md)
 - [实现 sleep 函数](/fe2020/js-implement/sleep.md)
+- [回文](/fe2020/js-implement/回文.md)
+- [实现小型打包工具](/fe2020/js-implement/实现小型打包工具.md)
