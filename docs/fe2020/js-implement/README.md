@@ -21,3 +21,6 @@
 - [实现 sleep 函数](/fe2020/js-implement/sleep.md)
 - [回文](/fe2020/js-implement/回文.md)
 - [实现小型打包工具](/fe2020/js-implement/实现小型打包工具.md)
+- [实现 Promise](/fe2020/js-implement/Promise.md)
+- [在数组中查找指定元素](/fe2020/js-implement/array-find.md)
+- [实现(5).add(3).minus(2)的功能](/fe2020/js-implement/number-operator.md)

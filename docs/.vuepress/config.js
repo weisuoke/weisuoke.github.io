@@ -2,18 +2,18 @@ const path = require("path");
 module.exports = {
   title: "邬晓’s blog",
   description: "Redesign Everything",
-  '@vuepress/back-to-top': true,
+  "@vuepress/back-to-top": true,
   themeConfig: {
     search: false,
     nav: [
       { text: "主页", link: "/" },
       {
         text: "前端精进2020",
-        link: "/fe2020/",
+        link: "/fe2020/"
       },
       {
         text: "Github漫游指南",
-        link: "/github/my-github",
+        link: "/github/my-github"
       },
       {
         text: "算法学习",
@@ -42,42 +42,42 @@ module.exports = {
           {
             title: "成长",
             path: "/fe2020/grow/",
-            collapsable: true,
+            collapsable: true
           },
           {
             title: "js基础",
             path: "/fe2020/js-basic/",
-            collapsable: true,
+            collapsable: true
           },
           {
             title: "ES6+",
             path: "/fe2020/es6/",
-            collapsable: true,
+            collapsable: true
           },
           {
             title: "js技巧",
             path: "/fe2020/js-skill/",
-            collapsable: true,
+            collapsable: true
           },
           {
             title: "手写代码/模拟实现",
             path: "/fe2020/js-implement/",
-            collapsable: true,
+            collapsable: true
           },
           {
             title: "Vue",
             path: "/fe2020/Vue/",
-            collapsable: true,
+            collapsable: true
           },
           {
             title: "React",
             path: "/fe2020/React/",
-            collapsable: true,
+            collapsable: true
           },
           {
             title: "FP",
             path: "/fe2020/FP/",
-            collapsable: true,
+            collapsable: true
           },
           {
             title: "设计模式",
@@ -93,26 +93,24 @@ module.exports = {
             title: "数据结构与算法",
             path: "/fe2020/algorithm/",
             collapsable: true,
-            sidebarDepth: 2,
+            sidebarDepth: 2
           },
           {
             title: "微前端",
             path: "/fe2020/microFE/",
             collapsable: true,
             sidebarDepth: 2,
-            children: [
-              "/fe2020/microFE/book-microFE.md"
-            ]
+            children: ["/fe2020/microFE/book-microFE.md"]
           },
           {
             title: "案例",
             path: "/fe2020/case/",
-            collapsable: true,
+            collapsable: true
           },
           {
             title: "个人项目",
             path: "/fe2020/project/",
-            collapsable: true,
+            collapsable: true
           }
         ]
       },
@@ -151,10 +149,7 @@ module.exports = {
             path: "/fe/js-implement/",
             collapsable: true,
             sidebarDepth: 2,
-            children: [
-              "/fe/js-implement/Promise",
-              "/fe/js-implement/jsonp",
-            ]
+            children: ["/fe/js-implement/jsonp"]
           },
           // 原理系列
           {

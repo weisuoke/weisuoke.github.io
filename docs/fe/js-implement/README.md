@@ -1,9 +1,5 @@
 # 模拟实现/手写系列
 
-1.  [实现(5).add(3).minus(2)的功能](/fe/js-implement/number-operator)s
-2.  [数组查找指定元素](/fe/js-implement/array-find.md)
-3.  [Promise](/fe/js-implement/Promise)
-
 ## 未归档
 
 > [【前端面试】同学，你会手写代码吗？](https://juejin.im/post/5c9edb066fb9a05e267026dc)
