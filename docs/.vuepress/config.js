@@ -80,6 +80,11 @@ module.exports = {
             collapsable: true
           },
           {
+            title: "性能优化",
+            path: "/fe2020/optimize/",
+            collapsable: true
+          },
+          {
             title: "设计模式",
             path: "/fe2020/Gof/",
             collapsable: true,
