@@ -60,6 +60,11 @@ module.exports = {
             collapsable: true
           },
           {
+            title: "js原理",
+            path: "/fe2020/js-theory/",
+            collapsable: true
+          },
+          {
             title: "手写代码/模拟实现",
             path: "/fe2020/js-implement/",
             collapsable: true
@@ -166,7 +171,6 @@ module.exports = {
               "/fe/js-theory/code-fragment-analysis",
               "/fe/js-theory/type-of-js",
               "/fe/js-theory/js-scope",
-              "/fe/js-theory/memory",
               "/fe/js-theory/asynchronous",
               "/fe/js-theory/event",
               "/fe/js-theory/event-loop",
@@ -175,7 +179,6 @@ module.exports = {
               "/fe/js-theory/how-to-implement-a-router",
               "/fe/js-theory/equal-different",
               "/fe/js-theory/service-worker-life-cycle",
-              "/fe/js-theory/browser-cache",
               "/fe/js-theory/browser-rendering",
               "/fe/js-theory/web-components",
               "/fe/js-theory/webassembly",

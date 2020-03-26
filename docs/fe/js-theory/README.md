@@ -1,7 +1,5 @@
 # 原理系列
 
-1. [内存管理](/fe/js-theory/memory)
-
 ## 未归档
 
 > [Vue-cli原理分析](https://juejin.im/post/5b592db551882536e5178ce6)

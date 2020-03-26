@@ -17,6 +17,7 @@
 3. 2DO: GTD 工具
 4. Typinator?
 5. Karabiner-Elements?
+6. iText - 神器
 
 ## 学习
 
