@@ -172,19 +172,13 @@ module.exports = {
               "/fe/js-theory/type-of-js",
               "/fe/js-theory/js-scope",
               "/fe/js-theory/asynchronous",
-              "/fe/js-theory/event",
-              "/fe/js-theory/event-loop",
               "/fe/js-theory/is-virtual-dom-fast",
               "/fe/js-theory/executor-stack",
               "/fe/js-theory/how-to-implement-a-router",
-              "/fe/js-theory/equal-different",
               "/fe/js-theory/service-worker-life-cycle",
-              "/fe/js-theory/browser-rendering",
               "/fe/js-theory/web-components",
               "/fe/js-theory/webassembly",
               "/fe/js-theory/npm",
-              "/fe/js-theory/websocket",
-              "/fe/js-theory/Immutable"
             ]
           },
           {
