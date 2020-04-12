@@ -171,13 +171,7 @@ module.exports = {
               "/fe/js-theory/code-fragment-analysis",
               "/fe/js-theory/type-of-js",
               "/fe/js-theory/js-scope",
-              "/fe/js-theory/asynchronous",
-              "/fe/js-theory/is-virtual-dom-fast",
-              "/fe/js-theory/executor-stack",
-              "/fe/js-theory/how-to-implement-a-router",
-              "/fe/js-theory/service-worker-life-cycle",
               "/fe/js-theory/web-components",
-              "/fe/js-theory/webassembly",
               "/fe/js-theory/npm",
             ]
           },
@@ -226,14 +220,6 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,
             children: ["/fe/PWA/pwa"]
-          },
-          // 微信小程序
-          {
-            title: "微信小程序",
-            path: "/fe/weapp/",
-            collapsable: true,
-            sidebarDepth: 2,
-            children: []
           },
           // 网络
           {

@@ -7,3 +7,8 @@
 - [Immutable 原理](/fe2020/js-theory/Immutable.md)
 - [事件机制](/fe2020/js-theory/event.md)
 - [Event Loop](/fe2020/js-theory/event-loop.md)
+- [Virtual DOM 真的快吗？](/fe2020/js-theory/is-virtual-dom-fast.md)
+- [executor-stack](/fe2020/js-theory/executor-stack.md)
+- [service-worker](/fe2020/js-theory/service-worker-life-cycle.md)
+- [webassembly](/fe2020/js-theory/webassembly.md)
+- [如何实现一个路由](/fe2020/js-theory/how-to-implement-a-router.md)

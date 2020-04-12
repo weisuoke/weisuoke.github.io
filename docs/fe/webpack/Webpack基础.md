@@ -20,7 +20,7 @@ WebPack可以看做是模块打包机：它做的事情是，分析你的项目�
 
 ## 2. 初始化项目
 
-```js
+```shell
 mkdir zhufeng-webpack
 cd zhufeng-webpack
 npm init -y
@@ -41,19 +41,19 @@ npm init -y
 
 ### 3.2 配置webpack
 
-```js
+```shell
 npm install webpack webpack-cli -D
 ```
 
 #### 3.2.1 创建src目录
 
-```js
+```shell
 mkdir src
 ```
 
 #### 3.2.2 创建dist目录
 
-```js
+```shell
 mkdir dist
 ```
 
