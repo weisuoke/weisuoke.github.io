@@ -83,3 +83,314 @@ git remote -v
 git remote add origin <git repo>
 ```
 
+### 4.5 编写基础代码
+
+开始编写 ts- axios 库，目标是实现简单的发送请求功能，即客户端通过 XMLHttpRequest 对象把请求发送到 server 端，server 端能收到请求并响应即可。
+
+我们实现 axios 最基本的操作，通过传入一个对象发送请求，如下
+
+```js
+axios({
+  method: 'get',
+  url: '/simple/get',
+  params: {
+    a: 1,
+    b: 2
+  }
+})
+```
+
+#### 4.5.1 创建文件入口
+
+我们删除 src 目录下的文件，先创建一个 index.ts 文件，作为整个库的入ロ文件，然后我们先定义一个 axios 方法，并把它导出，如下
+
+```ts
+function axios(config) {
+  
+}
+
+export default axios
+```
+
+这里 Typescript 编译器会检查到错误，分别是 config 的声明上有隐含的 any 报错，以及代码块为空。代码块为空我们比较好理解，第一个错误的原因是因为我们给 Typescript 编译配置的 strict 设置为 true 导致。
+
+#### 4.5.2 利用 XMLHttpRequest 发送请求
+
+```ts
+// src/index.ts
+import { AxiosRequestConfig } from './types'
+import xhr from './xhr'
+
+function axios(config: AxiosRequestConfig): void {
+  // TODO
+  xhr(config)
+}
+
+export default axios
+```
+
+```ts
+// src/types/index.ts
+export type Method = 'get' | 'GET'
+  | 'delete' | 'DELETE'
+  | 'head' | 'HEAD'
+  | 'options' | 'OPTIONS'
+  | 'post' | 'POST'
+  | 'put' | 'PUT'
+  | 'patch' | 'PATCH'
+
+export interface AxiosRequestConfig {
+  url: string,
+  method?: Method,
+  data?: any,
+  params?: any
+}
+```
+
+```ts
+// src/xhr.ts
+import { AxiosRequestConfig } from './types'
+
+export default function xhr(config: AxiosRequestConfig): void {
+  const { data, url, method = 'get' } = config
+
+  const request = new XMLHttpRequest()
+
+  request.open(method.toUpperCase(), url, true)
+
+  request.send(data)
+}
+```
+
+## 5. axios 基础功能实现
+
+### 5.1 需求分析
+
+上章遗留问题，再看这个例子：
+
+```js
+axios({
+  method: 'get',
+  url: '/base/get',
+  params: {
+    a: 1,
+    b: 2
+  }
+})
+```
+
+我们希望最终请求的url是/base/get?a=1&b=2,这样服务端就可以通过请求的url解析到我们传来的参数数据了。实际上就是把 params 对象的 key 和 value 拼接到 url 上
+
+再来看几个更复杂的例子。
+
+**参数值为数组**
+
+```js
+axios({
+  method: 'get',
+  url: '/base/get',
+  params: {
+		foo: ['bar', 'baz']
+  }
+})
+```
+
+最终请求的ur是`/base/get/foo[]=bar&foo[]=baz`。
+
+**参数值为对象**
+
+```js
+axios({
+  method: 'get',
+  url: '/base/get',
+  params: {
+		foo: {
+      bar: 'baz'
+    }
+  }
+})
+```
+
+最终请求的url是`/base/get?foo=%7B%22bar%22:%22ba2%22%70`,`foo`后面拼接的是`{"bar": "baz"}` encode 后的结果。
+
+**参数值为 Date 类型**
+
+```js
+axios({
+  method: 'get',
+  url: '/base/get',
+  params: {
+		date
+  }
+})
+```
+
+最终请求的url是`/base/get?date=2019-04-01T05:55:39.030Z`,`date`后面拼接的是 date.toISOString()的结果
+
+**特殊字符支持**
+
+对于字符`@` 、`:`、`S`、`,`、` `、`[`、`]`，我们是允许出现在 url 中的，不希望被 encode。
+
+```js
+axios({
+  method: 'get',
+  url: '/base/get',
+  params: {
+		foo: '@:$, '
+  }
+})
+```
+
+最终请求的url是`/base/get?fo0=0:$+`,注意,我们会把空格转换成+。
+
+**空值忽略**
+
+对于值为 null 或者 undefined 的属性，我们是不会添加到 url 参数中的。
+
+```js
+axios({
+  method: 'get',
+  url: '/base/get',
+  params: {
+		foo: 'bar',
+    baz: null
+  }
+})
+```
+
+最终请求的ur是`/base/get/foo=bar`。
+
+**丢弃 url 中的哈希标记**
+
+```js
+axios({
+  method: 'get',
+  url: '/base/get#hash',
+  params: {
+		foo: 'bar',
+  }
+})
+```
+
+最终请求的url是`/base/get?foo=bar`.
+
+**保留 url 中已存在的参数**
+
+```js
+axios({
+  method: 'get',
+  url: '/base/get?foo=bar',
+  params: {
+		bar: 'baz',
+  }
+})
+```
+
+最终请求的ur是`/base/get?foo=bar&bar=baz`
+
+### 5.2 buildURL 函数实现
+
+根据我们之前的需求分析，我们要实现一个工具函数，把 `params` 拼接到 url 上。我们希望把项目中的一些工具函数、辅助方法独立管理，于是我们创建一个 helpers 目录，在这个目录下创建url.ts 文件，未来会把处理 url 相关的工具函数都放在该文件中
+
+`helper/url.ts`
+
+```ts
+import { isDate, isObject } from './util'
+
+function encode (val: string): string {
+  return encodeURIComponent(val)
+    .replace(/%40/g, '@')
+    .replace(/%3A/gi, ':')
+    .replace(/%24/g, '$')
+    .replace(/%2C/gi, ',')
+    .replace(/%20/g, '+')
+    .replace(/%5B/gi, '[')
+    .replace(/%5D/gi, ']')
+}
+
+export function bulidURL (url: string, params?: any) {
+  if (!params) {
+    return url
+  }
+
+  const parts: string[] = []
+
+  Object.keys(params).forEach((key) => {
+    let val = params[key]
+    if (val === null || typeof val === 'undefined') {
+      return
+    }
+    let values: string[]
+    if (Array.isArray(val)) {
+      values = val
+      key += '[]'
+    } else {
+      values = [val]
+    }
+    values.forEach((val) => {
+      if (isDate(val)) {
+        val = val.toISOString()
+      } else if (isObject(val)) {
+        val = JSON.stringify(val)
+      }
+      parts.push(`${encode(key)}=${encode(val)}`)
+    })
+  })
+
+  let serializedParams = parts.join('&')
+
+  if (serializedParams) {
+    const markIndex = url.indexOf('#')
+    if (markIndex !== -1) {
+      url = url.slice(0, markIndex)
+    }
+
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams
+  }
+
+  return url
+}
+```
+
+`helpers/util.ts`：
+
+```typescript
+const toString = Object.prototype.toString
+
+export function isDate (val: any): val is Date {
+  return toString.call(val) === '[object Date]'
+}
+
+export function isObject (val: any): val is Object {
+  return val !== null && typeof val === 'object'
+}
+```
+
+### 5.3 实现 url 参数处理逻辑
+
+我们已经实现了 `buildURL` 函数，接下来我们来利用它实现 `url` 参数的处理逻辑。
+
+在 `index.ts` 文件中添加如下代码：
+
+```ts
+function axios (config: AxiosRequestConfig): void {
+  processConfig(config)
+  xhr(config)
+}
+
+function processConfig (config: AxiosRequestConfig): void {
+  config.url = transformUrl(config)
+}
+
+function transformUrl (config: AxiosRequestConfig): string {
+  const { url, params } = config
+  return bulidURL(url, params)
+}
+```
+
+在执行 `xhr` 函数前，我们先执行 `processConfig` 方法，对 `config` 中的数据做处理，除了对 `url` 和 `params` 处理之外，未来还会处理其它属性。
+
+在 `processConfig` 函数内部，我们通过执行 `transformUrl` 函数修改了 `config.url`，该函数内部调用了 `buildURL`。
+
+那么至此，我们对 `url` 参数处理逻辑就实现完了，接下来我们就开始编写 demo 了。
+

@@ -23,13 +23,10 @@ module.exports = {
           { text: "算法", link: "/algorithm/ag/" }
         ]
       },
-      { text: "效率", link: "/effective/" },
       { text: "读书笔记", link: "/reading/" },
       { text: "WIKI", link: "/wiki/" },
       { text: "FLAG", link: "/flag/" },
       { text: "ABOUT ME", link: "/about/" },
-      { text: "WUXIAO.IO", link: "https://wuxiao.io" },
-      { text: "WUXIAO.CODES", link: "https://react.wuxiao.codes" }
     ],
     lastUpdated: "更新时间",
     sidebar: [
@@ -42,6 +39,11 @@ module.exports = {
           {
             title: "成长",
             path: "/fe2020/grow/",
+            collapsable: true
+          },
+          {
+            title: "CSS",
+            path: "/fe2020/css/",
             collapsable: true
           },
           {

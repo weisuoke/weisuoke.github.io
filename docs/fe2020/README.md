@@ -1,37 +1,33 @@
 # 前端精进2020
 
-- 重新思考大前端
-- 《前端精进手册》里面的文章总结
-
 [[TOC]]
 
-## Tag
+## 文档
 
-1. FP
-2. 框架
-   - React（源码级）
-   - Vue（源码级）
-3. 构建工具
-   - Webpack
-   - Rollup
-4. 性能优化
-5. 测试
-6. 设计模式
-7. 算法
-8. Node
+- [珠峰架构](http://doc-zf.weisuoke.com/)
+- 开课吧前端
+- 京城一灯
+
+## Awesome
+
+- React
+- Vue
+- Webpack
+- Node
+  - Koa
+- FP
+- GraphQL
+- 设计模式
+- 数据结构与算法
+
+
+
+## 待归档
 
 ### 名词
 
 - 单点登录
 - 前端工程师不可不知的时间和地理坐标知识🔥
-
-### 新库
-
-- Ant Design 4.0
-
-#### 非主流
-
-- [lugia](https://github.com/lugia-ysstech/lugia)
 
 ### 基础
 
@@ -116,13 +112,18 @@
 ## JueJin - User
 
 - [苏里](https://juejin.im/user/582d3b450ce463006ce6d4e9)
-  - 分享快速搭建 Node 端 TypeScript 开发环境
-  - 浅谈TypeScript下的IoC容器原理
-  - 深入解析dva源码之dva-core篇
-  - 深入理解洋葱模型中间件机制
-  - JavaScript 实现超小型语法编译器
-  - 图解 JavaScript 竞态处理
-  - 设计实现优雅修改redux数据流的一个库
-  - 学习使用Pointfree风格优化代码 - 函数式编程
-  - Compose & Pipe - 函数式编程
-  - Partial & Curry - 函数式编程
+- [前端早早聊](https://juejin.im/user/5790c76dc4c9710054f0f58b/posts)
+
+- [shanyue](https://juejin.im/user/56a34361816dfa005925a654/posts)
+
+- [晨曦时梦见兮](https://juejin.im/user/5b13f11d5188257da1245183/posts)
+
+- [神奇的程序员](https://juejin.im/user/5cbbe37c51882532c334c324/posts)
+- [前端瓶子君](https://juejin.im/user/5c8f1c6b5188252d65343ff4)
+- [descire](https://juejin.im/user/57c5ae26c4c9710061a1defc)
+- [Colafornia](https://juejin.im/user/5757aa66a341310061239f33/posts)
+- [政采云前端团队](https://juejin.im/user/5d5366df6fb9a06b2a203553)
+
+- [徐小夕](https://juejin.im/user/5b985481f265da0a87264251)
+- [axuebin](https://juejin.im/user/574f910b207703005cd8686a/posts)
+

@@ -17,5 +17,6 @@
 
 ## TypeScript
 
-- [慕课网-基于TypeScript从零重构axios](/fe2020/case/typescript/imooc-typescript-axios.md)
+- [慕课网-基于TypeScript从零重构axios](https://github.com/weisuoke/ts-axios)
+  - [文档]()
 
