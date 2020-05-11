@@ -10,8 +10,9 @@
 
 ## Awesome
 
-- React
+- [React](http://awesome-react.weisuoke.com)
 - Vue
+- [Flutter](http://awesome-flutter.weisuoke.com)
 - Webpack
 - Node
   - Koa
