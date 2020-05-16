@@ -105,6 +105,7 @@
 - 硬核开源，使用 react-hooks 手写 ant-design-pro，搭配 node 完整api
 - 重拳出击：打造 Vue3.0 + Typescript + TSX 开(乞)发(丐)模式
 - 如何在Vue中使用lottie加载SVG动画
+- [13道http面试题，你能否接住](https://juejin.im/post/5e8d2eadf265da47ec762d7b)
 
 ### Github
 

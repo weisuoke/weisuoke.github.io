@@ -519,3 +519,203 @@ public class SuperMarket {
   - 点操作符是用来访问/操作前面实体的展性的，类似于“的”
   - `merchandise.name`可以读作 merchandise 的 name。
 
+## A03. 认识引用类型
+
+- 引用（reference）数据类型
+
+- 引用数据类型和基本数据类型
+-  Java 有一个大大的布告板，放着所有实例
+
+### 引用（reference）数据类型
+
+- Java 中的数据类型分为基本数据类型和引用数据类型
+- 看例程，理解引用
+
+```java
+public class ReferenceAndPrimaryDataType {
+    public static void main(String[] args) {
+
+        // >> TODO M1 是一个 Merchandise 类型的引用，只能指向 Merchandise 类型的实例
+        // >> TODO 引用数据类型变量包含两部分信息：类型和实例。也就是说，
+        //    TODO 每一个引用数据类型的变量（简称引用），都是指向某个类（Class/自定义类型）
+        //    TODO 的一个实例/对象(instance/ object）。不同类型的引用在 Java 的世界里都是引用。
+        // >> TODO 引用的类型信息在创建时就已经确定，可以通过给引用赋值，让其指向不同的实例
+        //    TODO 比如 m1 就是 Merchandise 类型，只能指向 Merchandise 的实例
+        Merchandise m1;
+        m1 = new Merchandise();
+        Merchandise m2 = new Merchandise();
+        Merchandise m3 = new Merchandise();
+        Merchandise m4 = new Merchandise();
+        Merchandise m5 = new Merchandise();
+
+        // >> TODO 给一个引用赋值，则两者的类型必须一样。m5 可以给 m1 赋值，因为他们类型是一样的
+        m1 = m5;
+    }
+}
+```
+
+### 引用数据类型和基本数据类型
+
+**引用数据类型和基本数据类型的相同点**
+
+- 都可以用来创建变量，可以赋值和使用其值
+- 本身都是一个地址
+
+**引用数据类型和基本数据类型的不同点**
+
+- 基本类型变量的值，就是地址对应的值。引用数据类型的值还是一个地址，需要通过“二级跳”找到实例
+
+- 引用数据类型是 Java 的一种内部类型，是对所有自定义类型和数组引用的统称，并非特指某种类型
+
+### Java 有ー个的大大的布告板，放着所有实例
+
+`Merchandise m1 = new Merchandise();`
+
+- 使用 `new` 操作符可以创建某个类的一个实例。在 Java 程序运行的时候，所有这些创建出来的实例都被 Java 放在内存里一个叫做堆（heap）的、类似公告板的地方
+
+- 创建一个实例，就是根据类的定义，点出需要的“纸”，订成一个本子，挂在布告板上。实例本身，可以认为是一个小本子
+- 引用里存放的，相当于某个本子所在的布告板的地址
+
+![image-20200511221813455](/Users/wuxiao/Library/Application Support/typora-user-images/image-20200511221813455.png)
+
+## A04. 类、对象和引用的关系
+
+### 类，对象和引用的关系
+
+**类和对象的关系**
+
+- 类是对象的模版，对象是类的一个实例
+
+- 一个 Java 程序中类名相同的类只能有一个，也就是类型不会重名
+- 一个类可以有很多对象
+- 一个对象只能根据一个类来创建
+
+**引用和类以及对象的关系**
+
+- 引用必须是、只能是一个类的引用
+- 引用只能指向其所属的类型的类的对象
+- 相同类型的引用之间可以赋值
+
+- 只能通过指向一个对象的引用，来操作一个对象，比如访问某个成员变量
+
+## A05. 认识数组类型
+
+### 认识数组类型
+
+**数组是一种特殊的类**
+
+- 数组的类名就是类型带上中括号
+
+- 同一类型的数组，每个数组对象的大小可以不一样。也就是**每个数组对象占用的内存可以不一样**，这点和类的对象不同。
+
+- 可以用引用指向类型相同大小不同的数组，因为它们属于同一种类型
+
+```java
+package a;
+
+public class ArrayIsClass {
+    public static void main(String[] args) {
+        // >> TODO “数组变量“其背后真身就是引用。数组类型就是一种特殊的类。
+        // >> TODO 数组的大小不决定数组的类型，数组的类型是只是由元素类型決定的。
+        int[] intArr;
+        intArr = new int[1];
+        intArr = new int[2];
+
+        double[][][] double3DArray;
+
+        int[] a1 = new int[9];
+        int[] a2 = new int[0];
+
+        a2 = a1;
+        System.out.println("a2.length=" + a2.length);
+        double[] a3 = new double[5];
+        //a3 是 double[]类型的引用，不可以用 int[]类型的引用赋值。
+        a3 = a1
+    }
+}
+```
+
+**引用的数组**
+
+- 可以把类名当成自定义类型，定义引用的数组，甚至多维数组
+
+## A06. 引用的缺省值 --- null
+
+### 引用的缺省值 null
+
+- 引用也有缺省值---null
+  - null 是引用类型的缺省值
+  - null 代表空，不存在。可以读作空
+  - 引用类型的数组创建出来，初始值都是空
+
+```java
+public class RefAndNull {
+    public static void main(String[] args) {
+        // 数组在创建出来之后，会按照类型给数组中的每个元素赋缺省值。
+        // 引用类型的缺省值是 null
+        Merchandise[] merchandises = new Merchandise[9];
+
+        // 给索引为偶数的引用赋值
+        for (int i = 0; i < merchandises.length; i++) {
+            if (i % 2 == 0) {
+                merchandises[i] = new Merchandise();
+            }
+        }
+
+        // 依次输出数组的值
+        for (int i = 0; i < merchandises.length; i++) {
+            System.out.println(merchandises[i]);
+        }
+
+        for (int i = 0; i < merchandises.length; i++) {
+            if (i % 2 == 0) {
+                Merchandise m = merchandises[i];
+                System.out.println(m.price);
+                System.out.println(m.count);
+                System.out.println(m.name);
+            }
+        }
+    }
+}
+```
+
+- nul 带来的问题
+  - 大名鼎鼎的 NullPointerException (NPE）
+  - 如果不确定，使用前要先判断引用是不是空
+
+- 通过 null 理解引用的“二级跳
+
+## A07. 像自定义类型一样使用类
+
+- 类就是一种自定义类型
+  - 在类定义中可以使用类，创建类的引用
+  - 在类定义中，甚至可以使用类自己的类创建引用
+  - 引用类型的缺省值是 null。一个类定义中如果有引用，创建出来的实例，其缺省值是 nul
+
+## A08. Java中的包和访问修饰符的知识
+
+### 类多太混乱？用 package 管理
+
+- 为了避兔类在一起混乱，可以把类放在文件夹里。这时就需要用package语句告诉 Java 这个类在哪个 package 里。package 语句要和源文件的目录完全对应，大小写要一致
+- package 读作包。一般来说，类都会在包里，而不会直接放在根目录
+- 不同的包里可以有相同名字的类
+
+- 一个类只能有一个 package 语句，如果有 package 语句，则必须是类的第一行有效代码
+
+### 类使用太繁琐怎么办？用 import 
+
+- 当使用另一个包里的类时候，需要带上包名
+
+- 每次使用都带包名很繁琐，可以在使用的类的上面使用 Import 语句，一次性解决问题，就可以直接使用类了。就好像我们之前用过的 Scanner类
+
+-  import 语句可以有多个
+
+- 如果需要 import 一个包中的很多类，可以使用*通配符
+
+### 属性访问修饰符：public
+
+- 被 public 修饰的属性，可以被任意包中的类访问
+
+- 没有访问修饰符的属性，称作缺省的访问修饰符，可以被本包内的其他类和自己的对象
+
+- 访问修饰符是一种限制或者允许属性访问的修饰符
