@@ -15,16 +15,6 @@ module.exports = {
         text: "Github漫游指南",
         link: "/github/my-github"
       },
-      {
-        text: "算法学习",
-        link: "/algorithm/",
-        items: [
-          { text: "数据结构", link: "/algorithm/ds/" },
-          { text: "算法", link: "/algorithm/ag/" }
-        ]
-      },
-      { text: "读书笔记", link: "/reading/" },
-      { text: "WIKI", link: "/wiki/" },
       { text: "FLAG", link: "/flag/" },
       { text: "ABOUT ME", link: "/about/" },
     ],

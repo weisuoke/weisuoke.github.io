@@ -11,11 +11,12 @@
 ## Awesome
 
 - [React](http://awesome-react.weisuoke.com)
-- Vue
+- [Vue](https://github.com/weisuoke/awesome-vue)
 - [Flutter](http://awesome-flutter.weisuoke.com)
 - Webpack
 - Node
   - Koa
+- Deno
 - FP
 - GraphQL
 - 设计模式
