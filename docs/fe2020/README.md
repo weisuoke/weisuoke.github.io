@@ -1,6 +1,6 @@
 # 前端精进2020
 
-[[TOC]]
+- [Awesome fe](https://github.com/weisuoke/awesome-fe)
 
 ## 文档
 
@@ -13,11 +13,12 @@
 - [React](http://awesome-react.weisuoke.com)
 - [Vue](https://github.com/weisuoke/awesome-vue)
 - [Flutter](http://awesome-flutter.weisuoke.com)
-- Webpack
+- [Webpack](https://github.com/weisuoke/awesome-webpack)
 - Node
   - Koa
-- Deno
-- FP
+- [Deno](https://github.com/weisuoke/awesome-deno)
+- [Functional Program](https://github.com/weisuoke/awesome-functional-program)
+- [interview](https://github.com/weisuoke/awesome-interview)
 - GraphQL
 - 设计模式
 - 数据结构与算法
@@ -28,7 +29,6 @@
 
 ### 名词
 
-- 单点登录
 - 前端工程师不可不知的时间和地理坐标知识🔥
 
 ### 基础

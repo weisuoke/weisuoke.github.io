@@ -18,3 +18,9 @@ sidebar: false
 
 - [vuepress](https://vuepress.vuejs.org/)
 
+
+
+## Life
+
+- [极简主义](https://minimalist.weisuoke.com/)
+
