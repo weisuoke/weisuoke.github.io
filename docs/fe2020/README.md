@@ -15,13 +15,17 @@
 - [Flutter](http://awesome-flutter.weisuoke.com)
 - [Webpack](https://github.com/weisuoke/awesome-webpack)
 - Node
+  - Nest
   - Koa
 - [Deno](https://github.com/weisuoke/awesome-deno)
 - [Functional Program](https://github.com/weisuoke/awesome-functional-program)
 - [interview](https://github.com/weisuoke/awesome-interview)
-- GraphQL
+- [GraphQL](http://awesome-graphql.weisuoke.com)
+- [WebGL](http://awesome-webgl.weisuoke.com)
+- [D3](http://awesome-d3.weisuoke.com)
+- [微前端](http://awesome-d3.weisuoke.com)
 - 设计模式
-- 数据结构与算法
+- [数据结构与算法](http://awesome-algorithm.weisuoke.com)
 
 
 
