@@ -92,19 +92,6 @@ module.exports = {
             ]
           },
           {
-            title: "数据结构与算法",
-            path: "/fe2020/algorithm/",
-            collapsable: true,
-            sidebarDepth: 2
-          },
-          {
-            title: "微前端",
-            path: "/fe2020/microFE/",
-            collapsable: true,
-            sidebarDepth: 2,
-            children: ["/fe2020/microFE/book-microFE.md"]
-          },
-          {
             title: "案例",
             path: "/fe2020/case/",
             collapsable: true
@@ -266,35 +253,6 @@ module.exports = {
             collapsable: true,
             sidebarDepth: 2,
             children: ["/reading/thinking/anshijian"]
-          }
-        ]
-      },
-      {
-        title: "算法学习",
-        path: "/algorithm/",
-        collapsable: true,
-        sidebarDepth: 1,
-        children: [
-          // 数据结构
-          {
-            title: "数据结构",
-            path: "/algorithm/ds/",
-            collapsable: true,
-            sidebarDepth: 2,
-            children: [
-              "/algorithm/ds/Stack",
-              "/algorithm/ds/LinkedList",
-              "/algorithm/ds/Tree",
-              "/algorithm/ds/Heap"
-            ]
-          },
-          // 算法
-          {
-            title: "算法",
-            path: "/algorithm/ag/",
-            collapsable: true,
-            sidebarDepth: 2,
-            children: ["/algorithm/ag/sort"]
           }
         ]
       }
