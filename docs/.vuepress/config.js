@@ -32,11 +32,6 @@ module.exports = {
             collapsable: true
           },
           {
-            title: "CSS",
-            path: "/fe2020/css/",
-            collapsable: true
-          },
-          {
             title: "js基础",
             path: "/fe2020/js-basic/",
             collapsable: true
@@ -59,11 +54,6 @@ module.exports = {
           {
             title: "手写代码/模拟实现",
             path: "/fe2020/js-implement/",
-            collapsable: true
-          },
-          {
-            title: "Vue",
-            path: "/fe2020/Vue/",
             collapsable: true
           },
           {
